@@ -41,10 +41,11 @@ async function ()
         .toLowerCase();
 
     const cidade =
-        document
-        .getElementById("cidade")
-        .value
-        .trim();
+    document
+    .getElementById("cidade")
+    .value
+    .trim()
+    .toLowerCase();
 
     const idade =
         Number(
