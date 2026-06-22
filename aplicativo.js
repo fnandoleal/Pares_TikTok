@@ -225,23 +225,33 @@ async function ()
                     </h5>
 
                     <p>
-                        ${perfil.idade} anos
-                        <br>
-                        ${perfil.cidade}
-                    </p>
 
-                    <p>
-                        Sexo:
+                        <strong>Cidade:</strong>
+
+                        ${perfil.cidade}
+
+                        <br>
+
+                        <strong>Idade:</strong>
+
+                        ${perfil.idade}
+
+                        <br>
+
+                        <strong>Sexo:</strong>
+
                         ${
                             perfil.sexo === "H"
                             ? "Homem"
                             : "Mulher"
                         }
-                    </p>
 
-                    <p>
-                        Situação:
+                        <br>
+
+                        <strong>Situação:</strong>
+
                         ${perfil.situacao}
+
                     </p>
 
                 </div>
@@ -251,5 +261,4 @@ async function ()
 
         }
     );
-
 };
