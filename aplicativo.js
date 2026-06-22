@@ -16,7 +16,9 @@ import
     addDoc,
     getDocs,
     query,
-    where
+    where,
+    deleteDoc,
+    doc
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -80,43 +82,46 @@ async function ()
 
     try
     {
-        /*
-========================================
-VERIFICA SE O TIKTOK JÁ EXISTE
-========================================
-*/
 
-const consultaTikTok =
-    query(
-        collection(
-            bancoDados,
-            "perfis"
-        ),
-        where(
-            "tiktok",
-            "==",
-            tiktok
+        /*
+        ========================================
+        VERIFICA DUPLICIDADE
+        ========================================
+        */
+
+        const consultaTikTok =
+            query(
+                collection(
+                    bancoDados,
+                    "perfis"
+                ),
+                where(
+                    "tiktok",
+                    "==",
+                    tiktok
+                )
+            );
+
+        const resultado =
+            await getDocs(
+                consultaTikTok
+            );
+
+        if(
+            !resultado.empty
         )
-    );
+        {
+            alert(
+                "Este TikTok já está cadastrado."
+            );
 
-const resultado =
-    await getDocs(
-        consultaTikTok
-    );
-
-if(
-    !resultado.empty
-)
-{
-    alert(
-        "Este TikTok já está cadastrado."
-    );
-
-    return;
-}
+            return;
+        }
 
         /*
-        Salva no Firestore
+        ========================================
+        SALVA NO FIRESTORE
+        ========================================
         */
 
         await addDoc(
@@ -214,6 +219,9 @@ async function ()
             const perfil =
                 documento.data();
 
+            const idDocumento =
+                documento.id;
+
             areaPerfis.innerHTML +=
             `
             <div class="card mb-3">
@@ -227,13 +235,11 @@ async function ()
                     <p>
 
                         <strong>Cidade:</strong>
-
                         ${perfil.cidade}
 
                         <br>
 
                         <strong>Idade:</strong>
-
                         ${perfil.idade}
 
                         <br>
@@ -249,10 +255,17 @@ async function ()
                         <br>
 
                         <strong>Situação:</strong>
-
                         ${perfil.situacao}
 
                     </p>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="excluirPerfil('${idDocumento}')">
+
+                        Excluir
+
+                    </button>
 
                 </div>
 
@@ -261,4 +274,58 @@ async function ()
 
         }
     );
+
+};
+
+/*
+========================================
+EXCLUIR PERFIL
+========================================
+*/
+
+window.excluirPerfil =
+async function(idDocumento)
+{
+
+    const confirmar =
+        confirm(
+            "Deseja realmente excluir este perfil?"
+        );
+
+    if(!confirmar)
+    {
+        return;
+    }
+
+    try
+    {
+
+        await deleteDoc(
+            doc(
+                bancoDados,
+                "perfis",
+                idDocumento
+            )
+        );
+
+        alert(
+            "Perfil excluído."
+        );
+
+        carregarPerfis();
+
+    }
+    catch(erro)
+    {
+
+        console.error(
+            erro
+        );
+
+        alert(
+            "Erro ao excluir perfil."
+        );
+
+    }
+
 };
