@@ -4,24 +4,22 @@ IMPORTA O FIREBASE
 ========================================
 */
 
-import
-{
-    bancoDados
+import {
+bancoDados
 }
-from "./configuracao-firebase.js";
+    from "./configuracao-firebase.js";
 
-import
-{
-     collection,
-    addDoc,
-    getDocs,
-    getDoc,
-    query,
-    where,
-    deleteDoc,
-    doc
+import {
+collection,
+addDoc,
+getDocs,
+getDoc,
+query,
+where,
+deleteDoc,
+doc
 }
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 /*
 ========================================
@@ -30,159 +28,155 @@ SALVAR PERFIL
 */
 
 window.salvarPerfil =
-async function ()
-{
+    async function () {
 
-    const tiktok =
-        document
-        .getElementById("tiktok")
-        .value
-        .trim()
-        .toLowerCase();
-
-    const cidade =
-    document
-    .getElementById("cidade")
-    .value
-    .trim()
-    .toLowerCase();
-
-    const idade =
-        Number(
+        const tiktok =
             document
-            .getElementById("idade")
-            .value
-        );
+                .getElementById("tiktok")
+                .value
+                .trim()
+                .toLowerCase();
 
-    const sexo =
-        document
-        .getElementById("sexo")
-        .value;
+        const cidade =
+            document
+                .getElementById("cidade")
+                .value
+                .trim()
+                .toLowerCase();
 
-    const situacao =
-        document
-        .getElementById("situacao")
-        .value;
+        const idade =
+            Number(
+                document
+                    .getElementById("idade")
+                    .value
+            );
 
-    /*
-    Verifica preenchimento
-    */
+        const sexo =
+            document
+                .getElementById("sexo")
+                .value;
 
-    if(
-        tiktok === "" ||
-        cidade === "" ||
-        idade === 0 ||
-        sexo === ""
-    )
-    {
-        alert(
-            "Preencha todos os campos."
-        );
-
-        return;
-    }
-
-    try
-    {
+        const situacao =
+            document
+                .getElementById("situacao")
+                .value;
 
         /*
-        ========================================
-        VERIFICA DUPLICIDADE
-        ========================================
+        Verifica preenchimento
         */
 
-        const consultaTikTok =
-            query(
-                collection(
-                    bancoDados,
-                    "perfis"
-                ),
-                where(
-                    "tiktok",
-                    "==",
-                    tiktok
-                )
-            );
-
-        const resultado =
-            await getDocs(
-                consultaTikTok
-            );
-
-        if(
-            !resultado.empty
-        )
-        {
+        if (
+            tiktok === "" ||
+            cidade === "" ||
+            idade === 0 ||
+            sexo === ""
+        ) {
             alert(
-                "Este TikTok já está cadastrado."
+                "Preencha todos os campos."
             );
 
             return;
         }
 
-        /*
-        ========================================
-        SALVA NO FIRESTORE
-        ========================================
-        */
+        try {
 
-        await addDoc(
-            collection(
-                bancoDados,
-                "perfis"
-            ),
-            {
-                tiktok,
-                cidade,
-                idade,
-                sexo,
-                situacao
+            /*
+            ========================================
+            VERIFICA DUPLICIDADE
+            ========================================
+            */
+
+            const consultaTikTok =
+                query(
+                    collection(
+                        bancoDados,
+                        "perfis"
+                    ),
+                    where(
+                        "tiktok",
+                        "==",
+                        tiktok
+                    )
+                );
+
+            const resultado =
+                await getDocs(
+                    consultaTikTok
+                );
+
+            if (
+                !resultado.empty
+            ) {
+                alert(
+                    "Este TikTok já está cadastrado."
+                );
+
+                return;
             }
-        );
 
-        alert(
-            "Perfil salvo com sucesso."
-        );
+            /*
+            ========================================
+            SALVA NO FIRESTORE
+            ========================================
+            */
 
-        /*
-        Limpa formulário
-        */
+            await addDoc(
+                collection(
+                    bancoDados,
+                    "perfis"
+                ),
+                {
+                    tiktok,
+                    estado,
+                    cidade,
+                    idade,
+                    sexo,
+                    situacao
+                }
+            );
 
-        document
-            .getElementById("tiktok")
-            .value = "";
+            alert(
+                "Perfil salvo com sucesso."
+            );
 
-        document
-            .getElementById("cidade")
-            .value = "";
+            /*
+            Limpa formulário
+            */
 
-        document
-            .getElementById("idade")
-            .value = "";
+            document
+                .getElementById("tiktok")
+                .value = "";
 
-        document
-            .getElementById("sexo")
-            .value = "";
+            document
+                .getElementById("cidade")
+                .value = "";
 
-        document
-            .getElementById("situacao")
-            .value = "ativo";
+            document
+                .getElementById("idade")
+                .value = "";
 
-    }
-    catch(erro)
-    {
+            document
+                .getElementById("sexo")
+                .value = "";
 
-        console.error(
-            erro
-        );
+            document
+                .getElementById("situacao")
+                .value = "ativo";
 
-        alert(
-            "Erro ao salvar."
-        );
+        }
+        catch (erro) {
 
-    }
+            console.error(
+                erro
+            );
 
-};
+            alert(
+                "Erro ao salvar."
+            );
+
+        }
+
+    };
 
 /*
 ========================================
@@ -191,41 +185,38 @@ LISTAR PERFIS
 */
 
 window.carregarPerfis =
-async function ()
-{
+    async function () {
 
-    const areaPerfis =
-        document.getElementById(
-            "areaPerfis"
-        );
+        const areaPerfis =
+            document.getElementById(
+                "areaPerfis"
+            );
 
-    if(!areaPerfis)
-    {
-        return;
-    }
+        if (!areaPerfis) {
+            return;
+        }
 
-    areaPerfis.innerHTML = "";
+        areaPerfis.innerHTML = "";
 
-    const consulta =
-        await getDocs(
-            collection(
-                bancoDados,
-                "perfis"
-            )
-        );
+        const consulta =
+            await getDocs(
+                collection(
+                    bancoDados,
+                    "perfis"
+                )
+            );
 
-    consulta.forEach(
-        (documento) =>
-        {
+        consulta.forEach(
+            (documento) => {
 
-            const perfil =
-                documento.data();
+                const perfil =
+                    documento.data();
 
-            const idDocumento =
-                documento.id;
+                const idDocumento =
+                    documento.id;
 
-            areaPerfis.innerHTML +=
-            `
+                areaPerfis.innerHTML +=
+                    `
             <div class="card mb-3">
 
                 <div class="card-body">
@@ -248,11 +239,10 @@ async function ()
 
                         <strong>Sexo:</strong>
 
-                        ${
-                            perfil.sexo === "H"
-                            ? "Homem"
-                            : "Mulher"
-                        }
+                        ${perfil.sexo === "H"
+                        ? "Homem"
+                        : "Mulher"
+                    }
 
                         <br>
 
@@ -287,10 +277,10 @@ async function ()
             </div>
             `;
 
-        }
-    );
+            }
+        );
 
-};
+    };
 
 /*
 ========================================
@@ -299,51 +289,47 @@ EXCLUIR PERFIL
 */
 
 window.excluirPerfil =
-async function(idDocumento)
-{
+    async function (idDocumento) {
 
-    const confirmar =
-        confirm(
-            "Deseja realmente excluir este perfil?"
-        );
+        const confirmar =
+            confirm(
+                "Deseja realmente excluir este perfil?"
+            );
 
-    if(!confirmar)
-    {
-        return;
-    }
+        if (!confirmar) {
+            return;
+        }
 
-    try
-    {
+        try {
 
-        await deleteDoc(
-            doc(
-                bancoDados,
-                "perfis",
-                idDocumento
-            )
-        );
+            await deleteDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idDocumento
+                )
+            );
 
-        alert(
-            "Perfil excluído."
-        );
+            alert(
+                "Perfil excluído."
+            );
 
-        carregarPerfis();
+            carregarPerfis();
 
-    }
-    catch(erro)
-    {
+        }
+        catch (erro) {
 
-        console.error(
-            erro
-        );
+            console.error(
+                erro
+            );
 
-        alert(
-            "Erro ao excluir perfil."
-        );
+            alert(
+                "Erro ao excluir perfil."
+            );
 
-    }
+        }
 
-};
+    };
 
 /*
 ========================================
@@ -358,78 +344,72 @@ CARREGAR PARES
 */
 
 window.carregarPares =
-async function()
-{
+    async function () {
 
-    const parametros =
-        new URLSearchParams(
-            window.location.search
-        );
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
 
-    const idPerfil =
-        parametros.get("id");
+        const idPerfil =
+            parametros.get("id");
 
-    const areaPares =
-        document.getElementById(
-            "areaPares"
-        );
+        const areaPares =
+            document.getElementById(
+                "areaPares"
+            );
 
-    if(!areaPares)
-    {
-        return;
-    }
+        if (!areaPares) {
+            return;
+        }
 
-    const documentoPerfil =
-        await getDoc(
-            doc(
-                bancoDados,
-                "perfis",
-                idPerfil
-            )
-        );
+        const documentoPerfil =
+            await getDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idPerfil
+                )
+            );
 
-    const perfil =
-        documentoPerfil.data();
+        const perfil =
+            documentoPerfil.data();
 
-    const sexoProcurado =
-        perfil.sexo === "H"
-        ? "M"
-        : "H";
+        const sexoProcurado =
+            perfil.sexo === "H"
+                ? "M"
+                : "H";
 
-    const consulta =
-        await getDocs(
-            collection(
-                bancoDados,
-                "perfis"
-            )
-        );
+        const consulta =
+            await getDocs(
+                collection(
+                    bancoDados,
+                    "perfis"
+                )
+            );
 
-    areaPares.innerHTML = "";
+        areaPares.innerHTML = "";
 
-    consulta.forEach(
-        (documento) =>
-        {
+        consulta.forEach(
+            (documento) => {
 
-            if(documento.id === idPerfil)
-            {
-                return;
-            }
+                if (documento.id === idPerfil) {
+                    return;
+                }
 
-            const outroPerfil =
-                documento.data();
+                const outroPerfil =
+                    documento.data();
 
-            if(outroPerfil.situacao !== "ativo")
-            {
-                return;
-            }
+                if (outroPerfil.situacao !== "ativo") {
+                    return;
+                }
 
-            if(outroPerfil.sexo !== sexoProcurado)
-            {
-                return;
-            }
+                if (outroPerfil.sexo !== sexoProcurado) {
+                    return;
+                }
 
-            areaPares.innerHTML +=
-            `
+                areaPares.innerHTML +=
+                    `
             <div class="card mb-3">
 
                 <div class="card-body">
@@ -455,7 +435,7 @@ async function()
             </div>
             `;
 
-        }
-    );
+            }
+        );
 
-};
+    };
