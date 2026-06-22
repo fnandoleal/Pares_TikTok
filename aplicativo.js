@@ -300,8 +300,55 @@ EXCLUIR PERFIL
 window.excluirPerfil =
 async function(idDocumento)
 {
-   ...
+
+    const confirmar =
+        confirm(
+            "Deseja realmente excluir este perfil?"
+        );
+
+    if(!confirmar)
+    {
+        return;
+    }
+
+    try
+    {
+
+        await deleteDoc(
+            doc(
+                bancoDados,
+                "perfis",
+                idDocumento
+            )
+        );
+
+        alert(
+            "Perfil excluído."
+        );
+
+        carregarPerfis();
+
+    }
+    catch(erro)
+    {
+
+        console.error(
+            erro
+        );
+
+        alert(
+            "Erro ao excluir perfil."
+        );
+
+    }
+
 };
+
+/*
+========================================
+CARREGAR PARES
+========================================
+*/
 
 /*
 ========================================
@@ -312,5 +359,102 @@ CARREGAR PARES
 window.carregarPares =
 async function()
 {
-   ...
+
+    const parametros =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const idPerfil =
+        parametros.get("id");
+
+    const areaPares =
+        document.getElementById(
+            "areaPares"
+        );
+
+    if(!areaPares)
+    {
+        return;
+    }
+
+    const documentoPerfil =
+        await getDoc(
+            doc(
+                bancoDados,
+                "perfis",
+                idPerfil
+            )
+        );
+
+    const perfil =
+        documentoPerfil.data();
+
+    const sexoProcurado =
+        perfil.sexo === "H"
+        ? "M"
+        : "H";
+
+    const consulta =
+        await getDocs(
+            collection(
+                bancoDados,
+                "perfis"
+            )
+        );
+
+    areaPares.innerHTML = "";
+
+    consulta.forEach(
+        (documento) =>
+        {
+
+            if(documento.id === idPerfil)
+            {
+                return;
+            }
+
+            const outroPerfil =
+                documento.data();
+
+            if(outroPerfil.situacao !== "ativo")
+            {
+                return;
+            }
+
+            if(outroPerfil.sexo !== sexoProcurado)
+            {
+                return;
+            }
+
+            areaPares.innerHTML +=
+            `
+            <div class="card mb-3">
+
+                <div class="card-body">
+
+                    <h5>
+                        ${outroPerfil.tiktok}
+                    </h5>
+
+                    <p>
+
+                        Cidade:
+                        ${outroPerfil.cidade}
+
+                        <br>
+
+                        Idade:
+                        ${outroPerfil.idade}
+
+                    </p>
+
+                </div>
+
+            </div>
+            `;
+
+        }
+    );
+
 };
