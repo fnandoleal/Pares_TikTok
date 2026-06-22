@@ -34,7 +34,8 @@ async function ()
         document
         .getElementById("tiktok")
         .value
-        .trim();
+        .trim()
+        .toLowerCase();
 
     const cidade =
         document
