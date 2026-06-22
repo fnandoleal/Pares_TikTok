@@ -14,7 +14,9 @@ import
 {
     collection,
     addDoc,
-    getDocs
+    getDocs,
+    query,
+    where
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -77,6 +79,40 @@ async function ()
 
     try
     {
+        /*
+========================================
+VERIFICA SE O TIKTOK JÁ EXISTE
+========================================
+*/
+
+const consultaTikTok =
+    query(
+        collection(
+            bancoDados,
+            "perfis"
+        ),
+        where(
+            "tiktok",
+            "==",
+            tiktok
+        )
+    );
+
+const resultado =
+    await getDocs(
+        consultaTikTok
+    );
+
+if(
+    !resultado.empty
+)
+{
+    alert(
+        "Este TikTok já está cadastrado."
+    );
+
+    return;
+}
 
         /*
         Salva no Firestore
