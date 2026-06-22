@@ -5,19 +5,19 @@ IMPORTA O FIREBASE
 */
 
 import {
-bancoDados
+    bancoDados
 }
     from "./configuracao-firebase.js";
 
 import {
-collection,
-addDoc,
-getDocs,
-getDoc,
-query,
-where,
-deleteDoc,
-doc
+    collection,
+    addDoc,
+    getDocs,
+    getDoc,
+    query,
+    where,
+    deleteDoc,
+    doc
 }
     from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -36,6 +36,11 @@ window.salvarPerfil =
                 .value
                 .trim()
                 .toLowerCase();
+
+        const estado =
+            document
+                .getElementById("estado")
+                .value;
 
         const cidade =
             document
@@ -67,6 +72,7 @@ window.salvarPerfil =
 
         if (
             tiktok === "" ||
+            estado === "" ||
             cidade === "" ||
             idade === 0 ||
             sexo === ""
