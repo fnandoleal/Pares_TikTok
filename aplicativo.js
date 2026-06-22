@@ -12,9 +12,10 @@ from "./configuracao-firebase.js";
 
 import
 {
-    collection,
+     collection,
     addDoc,
     getDocs,
+    getDoc,
     query,
     where,
     deleteDoc,
@@ -259,13 +260,26 @@ async function ()
 
                     </p>
 
-                    <button
-                        class="btn btn-danger"
-                        onclick="excluirPerfil('${idDocumento}')">
+<div class="d-flex gap-2">
 
-                        Excluir
+    <button
+        class="btn btn-danger"
+        onclick="excluirPerfil('${idDocumento}')">
 
-                    </button>
+        Excluir
+
+    </button>
+
+    <a
+        href="pares.html?id=${idDocumento}"
+        class="btn btn-primary">
+
+        Ver Pares
+
+    </a>
+
+</div>
+
 
                 </div>
 
@@ -286,46 +300,17 @@ EXCLUIR PERFIL
 window.excluirPerfil =
 async function(idDocumento)
 {
+   ...
+};
 
-    const confirmar =
-        confirm(
-            "Deseja realmente excluir este perfil?"
-        );
+/*
+========================================
+CARREGAR PARES
+========================================
+*/
 
-    if(!confirmar)
-    {
-        return;
-    }
-
-    try
-    {
-
-        await deleteDoc(
-            doc(
-                bancoDados,
-                "perfis",
-                idDocumento
-            )
-        );
-
-        alert(
-            "Perfil excluído."
-        );
-
-        carregarPerfis();
-
-    }
-    catch(erro)
-    {
-
-        console.error(
-            erro
-        );
-
-        alert(
-            "Erro ao excluir perfil."
-        );
-
-    }
-
+window.carregarPares =
+async function()
+{
+   ...
 };
