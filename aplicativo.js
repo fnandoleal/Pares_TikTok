@@ -298,12 +298,22 @@ window.carregarPerfis =
     </button>
 
     <a
-        href="pares.html?id=${idDocumento}"
-        class="btn btn-primary">
+    href="pares.html?id=${idDocumento}"
+    class="btn btn-primary">
 
-        Ver Pares
+    Ver Pares
 
-    </a>
+</a>
+
+<button
+    class="btn btn-info"
+    onclick="copiarTikTok(
+        '${perfil.tiktok}'
+    )">
+
+    Copiar TikTok
+
+</button>
 
 </div>
 
@@ -537,6 +547,32 @@ window.editarPerfil =
 
         alert(
             "Erro ao editar perfil."
+        );
+
+    }
+
+};
+window.copiarTikTok =
+async function(tiktok)
+{
+
+    try
+    {
+
+        await navigator.clipboard.writeText(
+            tiktok
+        );
+
+        alert(
+            "TikTok copiado."
+        );
+
+    }
+    catch(erro)
+    {
+
+        alert(
+            "Não foi possível copiar."
         );
 
     }
