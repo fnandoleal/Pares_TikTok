@@ -431,6 +431,11 @@ window.carregarPares =
 
                     <p>
 
+                        Estado:
+                        ${outroPerfil.estado}
+
+                        <br>
+
                         Cidade:
                         ${outroPerfil.cidade}
 
