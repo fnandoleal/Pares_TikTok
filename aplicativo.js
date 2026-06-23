@@ -127,6 +127,23 @@ window.salvarPerfil =
             ========================================
             */
 
+            const resposta =
+                await fetch(
+                    `https://nominatim.openstreetmap.org/search?city=${cidade}&country=Brazil&format=json&limit=1`
+                );
+
+            const dados =
+                await resposta.json();
+
+            const latitude =
+                Number(
+                    dados[0].lat
+                );
+
+            const longitude =
+                Number(
+                    dados[0].lon
+                );
             await addDoc(
                 collection(
                     bancoDados,
@@ -136,6 +153,8 @@ window.salvarPerfil =
                     tiktok,
                     estado,
                     cidade,
+                    latitude,
+                    longitude,
                     idade,
                     sexo,
                     situacao
@@ -741,6 +760,9 @@ window.carregarPares =
                 const outroPerfil =
                     item.perfil;
 
+                const diferenca =
+                    item.diferencaIdade;
+
                 areaPares.innerHTML +=
                     `
                     <div class="card mb-3">
@@ -765,6 +787,11 @@ window.carregarPares =
 
                                 <strong>Idade:</strong>
                                 ${outroPerfil.idade}
+
+                                <br>
+
+                                <strong>Diferença:</strong>
+                                ${diferenca} anos
 
                             </p>
 
