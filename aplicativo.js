@@ -17,6 +17,7 @@ import {
     query,
     where,
     deleteDoc,
+    updateDoc,
     doc
 }
     from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
@@ -266,7 +267,21 @@ window.carregarPerfis =
 
                     </p>
 
-<div class="d-flex gap-2">
+<div class="d-flex gap-2 flex-wrap">
+
+    <button
+        class="btn btn-warning"
+        onclick="alternarSituacao(
+            '${idDocumento}',
+            '${perfil.situacao}'
+        )">
+
+        ${perfil.situacao === "ativo"
+                        ? "Inativar"
+                        : "Ativar"
+                    }
+
+    </button>
 
     <button
         class="btn btn-danger"
@@ -340,6 +355,54 @@ window.excluirPerfil =
 
             alert(
                 "Erro ao excluir perfil."
+            );
+
+        }
+
+    };
+
+/*
+========================================
+ATIVAR / INATIVAR
+========================================
+*/
+
+window.alternarSituacao =
+    async function (
+        idDocumento,
+        situacaoAtual
+    ) {
+
+        try {
+
+            const novaSituacao =
+                situacaoAtual === "ativo"
+                    ? "inativo"
+                    : "ativo";
+
+            await updateDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idDocumento
+                ),
+                {
+                    situacao:
+                        novaSituacao
+                }
+            );
+
+            carregarPerfis();
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao alterar situação."
             );
 
         }
