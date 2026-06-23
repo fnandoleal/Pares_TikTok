@@ -5,70 +5,65 @@ CARREGAR CIDADES
 */
 
 window.carregarCidades =
-async function()
-{
+    async function () {
 
-    const estado =
-        document
-            .getElementById("estado")
-            .value;
+        const estado =
+            document
+                .getElementById("estado")
+                .value;
 
-    const cidade =
-        document
-            .getElementById("cidade");
+        const cidade =
+            document
+                .getElementById("cidade");
 
-    if(
-        estado === ""
-    )
-    {
-        return;
-    }
-
-    cidade.innerHTML =
-        '<option value="">Carregando...</option>';
-
-    try
-    {
-
-        const resposta =
-            await fetch(
-                `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estado}/municipios`
-            );
-
-        const municipios =
-            await resposta.json();
+        if (
+            estado === ""
+        ) {
+            return;
+        }
 
         cidade.innerHTML =
-            '<option value="">Selecione</option>';
+            '<option value="">Carregando...</option>';
 
-        municipios.forEach(
-            (municipio) =>
-            {
+        try {
 
-                cidade.innerHTML +=
-                `
+            const resposta =
+                await fetch(
+                    `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estado}/municipios`
+                );
+
+            const municipios =
+                await resposta.json();
+
+            cidade.innerHTML =
+                '<option value="">Selecione</option>';
+
+            municipios.forEach(
+                (municipio) => {
+
+                    cidade.innerHTML +=
+                        `
                 <option value="${municipio.nome}">
                     ${municipio.nome}
                 </option>
                 `;
 
-            }
-        );
+                }
+            );
 
-    }
-    catch(erro)
-    {
+        }
+        catch (erro) {
 
-        console.error(
-            erro
-        );
+            console.error(
+                erro
+            );
 
-        cidade.innerHTML =
-            '<option value="">Erro ao carregar</option>';
+            cidade.innerHTML =
+                '<option value="">Erro ao carregar</option>';
 
-    }
+        }
 
-};
+    };
 /*
 ========================================
 IMPORTA O FIREBASE
@@ -131,11 +126,6 @@ window.salvarPerfil =
         const sexo =
             document
                 .getElementById("sexo")
-                .value;
-
-        const situacao =
-            document
-                .getElementById("situacao")
                 .value;
 
         /*
@@ -228,7 +218,7 @@ window.salvarPerfil =
                     longitude,
                     idade,
                     sexo,
-                    situacao
+                    situacao: "ativo"
                 }
             );
 
@@ -260,9 +250,7 @@ window.salvarPerfil =
                 .getElementById("sexo")
                 .value = "";
 
-            document
-                .getElementById("situacao")
-                .value = "ativo";
+
 
         }
         catch (erro) {
@@ -299,6 +287,15 @@ window.carregarPerfis =
 
         areaPerfis.innerHTML = "";
 
+        const busca =
+            document
+                .getElementById(
+                    "buscaTikTok"
+                )?.value
+                .trim()
+                .toLowerCase()
+            || "";
+
         const consulta =
             await getDocs(
                 collection(
@@ -312,6 +309,15 @@ window.carregarPerfis =
 
                 const perfil =
                     documento.data();
+
+                if (
+                    busca !== "" &&
+                    !perfil.tiktok
+                        .toLowerCase()
+                        .includes(busca)
+                ) {
+                    return;
+                }
 
                 const idDocumento =
                     documento.id;

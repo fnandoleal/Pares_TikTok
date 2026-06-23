@@ -37,6 +37,25 @@
                     Perfis Cadastrados
                 </p>
 
+                <!-- ========================================
+                     BUSCA TIKTOK
+                ========================================= -->
+
+                <div class="mb-3">
+
+                    <input
+                        type="text"
+                        id="buscaTikTok"
+                        class="form-control"
+                        placeholder="Buscar TikTok..."
+                        onkeyup="carregarPerfis()">
+
+                </div>
+
+                <!-- ========================================
+                     BOTÃO NOVO PERFIL
+                ========================================= -->
+
                 <div class="text-center mb-4">
 
                     <a
@@ -49,10 +68,9 @@
 
                 </div>
 
-                <!--
-                Aqui os perfis serão carregados
-                automaticamente pelo JavaScript
-                -->
+                <!-- ========================================
+                     LISTA DE PERFIS
+                ========================================= -->
 
                 <div id="areaPerfis">
 
@@ -73,16 +91,12 @@
 
     <script>
 
-        /*
-        Quando a página terminar de carregar,
-        chama a função carregarPerfis()
-        */
-
         window.addEventListener(
             "load",
-            function()
-            {
+            function () {
+
                 carregarPerfis();
+
             }
         );
 
