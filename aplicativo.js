@@ -432,153 +432,142 @@ EDITAR PERFIL
 */
 
 window.editarPerfil =
-    async function(idDocumento)
-{
+    async function (idDocumento) {
 
-    try
-    {
+        try {
 
-        const documentoPerfil =
-            await getDoc(
+            const documentoPerfil =
+                await getDoc(
+                    doc(
+                        bancoDados,
+                        "perfis",
+                        idDocumento
+                    )
+                );
+
+            const perfil =
+                documentoPerfil.data();
+
+            const novoTikTok =
+                prompt(
+                    "TikTok:",
+                    perfil.tiktok
+                );
+
+            if (
+                novoTikTok === null
+            ) {
+                return;
+            }
+
+            const novoEstado =
+                prompt(
+                    "Estado:",
+                    perfil.estado
+                );
+
+            if (
+                novoEstado === null
+            ) {
+                return;
+            }
+
+            const novaCidade =
+                prompt(
+                    "Cidade:",
+                    perfil.cidade
+                );
+
+            if (
+                novaCidade === null
+            ) {
+                return;
+            }
+
+            const novaIdade =
+                prompt(
+                    "Idade:",
+                    perfil.idade
+                );
+
+            if (
+                novaIdade === null
+            ) {
+                return;
+            }
+
+            await updateDoc(
                 doc(
                     bancoDados,
                     "perfis",
                     idDocumento
-                )
+                ),
+                {
+                    tiktok:
+                        novoTikTok
+                            .trim()
+                            .toLowerCase(),
+
+                    estado:
+                        novoEstado
+                            .trim()
+                            .toUpperCase(),
+
+                    cidade:
+                        novaCidade
+                            .trim()
+                            .toLowerCase(),
+
+                    idade:
+                        Number(
+                            novaIdade
+                        )
+                }
             );
 
-        const perfil =
-            documentoPerfil.data();
-
-        const novoTikTok =
-            prompt(
-                "TikTok:",
-                perfil.tiktok
+            alert(
+                "Perfil atualizado."
             );
 
-        if(
-            novoTikTok === null
-        )
-        {
-            return;
+            carregarPerfis();
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao editar perfil."
+            );
+
         }
 
-        const novoEstado =
-            prompt(
-                "Estado:",
-                perfil.estado
-            );
-
-        if(
-            novoEstado === null
-        )
-        {
-            return;
-        }
-
-        const novaCidade =
-            prompt(
-                "Cidade:",
-                perfil.cidade
-            );
-
-        if(
-            novaCidade === null
-        )
-        {
-            return;
-        }
-
-        const novaIdade =
-            prompt(
-                "Idade:",
-                perfil.idade
-            );
-
-        if(
-            novaIdade === null
-        )
-        {
-            return;
-        }
-
-        await updateDoc(
-            doc(
-                bancoDados,
-                "perfis",
-                idDocumento
-            ),
-            {
-                tiktok:
-                    novoTikTok
-                    .trim()
-                    .toLowerCase(),
-
-                estado:
-                    novoEstado
-                    .trim()
-                    .toUpperCase(),
-
-                cidade:
-                    novaCidade
-                    .trim()
-                    .toLowerCase(),
-
-                idade:
-                    Number(
-                        novaIdade
-                    )
-            }
-        );
-
-        alert(
-            "Perfil atualizado."
-        );
-
-        carregarPerfis();
-
-    }
-    catch(erro)
-    {
-
-        console.error(
-            erro
-        );
-
-        alert(
-            "Erro ao editar perfil."
-        );
-
-    }
-
-};
+    };
 window.copiarTikTok =
-async function(tiktok)
-{
+    async function (tiktok) {
 
-    try
-    {
+        try {
 
-        await navigator.clipboard.writeText(
-            tiktok
-        );
+            await navigator.clipboard.writeText(
+                tiktok
+            );
 
-        alert(
-            "TikTok copiado."
-        );
+            alert(
+                "TikTok copiado."
+            );
 
-    }
-    catch(erro)
-    {
+        }
+        catch (erro) {
 
-        alert(
-            "Não foi possível copiar."
-        );
+            alert(
+                "Não foi possível copiar."
+            );
 
-    }
+        }
 
-};
-
+    };
 /*
 ========================================
 CARREGAR PARES
@@ -658,24 +647,22 @@ window.carregarPares =
                     return;
                 }
 
-                let prioridade = 3;
-
-                if (
-                    outroPerfil.estado === perfil.estado
-                ) {
-                    prioridade = 2;
-                }
-
-                if (
-                    outroPerfil.estado === perfil.estado &&
-                    outroPerfil.cidade === perfil.cidade
-                ) {
-                    prioridade = 1;
-                }
+                const diferencaIdade =
+                    Math.abs(
+                        outroPerfil.idade -
+                        perfil.idade
+                    );
 
                 listaPares.push(
                     {
-                        prioridade,
+                        mesmaCidade:
+                            outroPerfil.cidade === perfil.cidade,
+
+                        mesmoEstado:
+                            outroPerfil.estado === perfil.estado,
+
+                        diferencaIdade,
+
                         perfil: outroPerfil
                     }
                 );
@@ -684,8 +671,42 @@ window.carregarPares =
         );
 
         listaPares.sort(
-            (a, b) =>
-                a.prioridade - b.prioridade
+            (a, b) => {
+
+                if (
+                    a.mesmaCidade &&
+                    !b.mesmaCidade
+                ) {
+                    return -1;
+                }
+
+                if (
+                    !a.mesmaCidade &&
+                    b.mesmaCidade
+                ) {
+                    return 1;
+                }
+
+                if (
+                    a.mesmoEstado &&
+                    !b.mesmoEstado
+                ) {
+                    return -1;
+                }
+
+                if (
+                    !a.mesmoEstado &&
+                    b.mesmoEstado
+                ) {
+                    return 1;
+                }
+
+                return (
+                    a.diferencaIdade -
+                    b.diferencaIdade
+                );
+
+            }
         );
 
         if (
