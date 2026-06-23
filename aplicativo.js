@@ -233,6 +233,11 @@ window.carregarPerfis =
 
                     <p>
 
+                        <strong>Estado:</strong>
+                        ${perfil.estado}
+
+                        <br>
+
                         <strong>Cidade:</strong>
                         ${perfil.cidade}
 
