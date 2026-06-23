@@ -268,7 +268,13 @@ window.carregarPerfis =
                     </p>
 
 <div class="d-flex gap-2 flex-wrap">
+<button
+    class="btn btn-secondary"
+    onclick="editarPerfil('${idDocumento}')">
 
+    Editar
+
+</button>
     <button
         class="btn btn-warning"
         onclick="alternarSituacao(
@@ -408,6 +414,134 @@ window.alternarSituacao =
         }
 
     };
+
+/*
+========================================
+EDITAR PERFIL
+========================================
+*/
+
+window.editarPerfil =
+    async function(idDocumento)
+{
+
+    try
+    {
+
+        const documentoPerfil =
+            await getDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idDocumento
+                )
+            );
+
+        const perfil =
+            documentoPerfil.data();
+
+        const novoTikTok =
+            prompt(
+                "TikTok:",
+                perfil.tiktok
+            );
+
+        if(
+            novoTikTok === null
+        )
+        {
+            return;
+        }
+
+        const novoEstado =
+            prompt(
+                "Estado:",
+                perfil.estado
+            );
+
+        if(
+            novoEstado === null
+        )
+        {
+            return;
+        }
+
+        const novaCidade =
+            prompt(
+                "Cidade:",
+                perfil.cidade
+            );
+
+        if(
+            novaCidade === null
+        )
+        {
+            return;
+        }
+
+        const novaIdade =
+            prompt(
+                "Idade:",
+                perfil.idade
+            );
+
+        if(
+            novaIdade === null
+        )
+        {
+            return;
+        }
+
+        await updateDoc(
+            doc(
+                bancoDados,
+                "perfis",
+                idDocumento
+            ),
+            {
+                tiktok:
+                    novoTikTok
+                    .trim()
+                    .toLowerCase(),
+
+                estado:
+                    novoEstado
+                    .trim()
+                    .toUpperCase(),
+
+                cidade:
+                    novaCidade
+                    .trim()
+                    .toLowerCase(),
+
+                idade:
+                    Number(
+                        novaIdade
+                    )
+            }
+        );
+
+        alert(
+            "Perfil atualizado."
+        );
+
+        carregarPerfis();
+
+    }
+    catch(erro)
+    {
+
+        console.error(
+            erro
+        );
+
+        alert(
+            "Erro ao editar perfil."
+        );
+
+    }
+
+};
 
 /*
 ========================================
