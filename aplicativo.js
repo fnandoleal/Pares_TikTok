@@ -666,6 +666,14 @@ window.carregarPares =
                     return;
                 }
 
+                const distancia =
+                    calcularDistancia(
+                        perfil.latitude,
+                        perfil.longitude,
+                        outroPerfil.latitude,
+                        outroPerfil.longitude
+                    );
+
                 const diferencaIdade =
                     Math.abs(
                         outroPerfil.idade -
@@ -674,14 +682,8 @@ window.carregarPares =
 
                 listaPares.push(
                     {
-                        mesmaCidade:
-                            outroPerfil.cidade === perfil.cidade,
-
-                        mesmoEstado:
-                            outroPerfil.estado === perfil.estado,
-
+                        distancia,
                         diferencaIdade,
-
                         perfil: outroPerfil
                     }
                 );
@@ -693,31 +695,13 @@ window.carregarPares =
             (a, b) => {
 
                 if (
-                    a.mesmaCidade &&
-                    !b.mesmaCidade
+                    a.distancia !==
+                    b.distancia
                 ) {
-                    return -1;
-                }
-
-                if (
-                    !a.mesmaCidade &&
-                    b.mesmaCidade
-                ) {
-                    return 1;
-                }
-
-                if (
-                    a.mesmoEstado &&
-                    !b.mesmoEstado
-                ) {
-                    return -1;
-                }
-
-                if (
-                    !a.mesmoEstado &&
-                    b.mesmoEstado
-                ) {
-                    return 1;
+                    return (
+                        a.distancia -
+                        b.distancia
+                    );
                 }
 
                 return (
@@ -793,6 +777,11 @@ window.carregarPares =
                                 <strong>Diferença:</strong>
                                 ${diferenca} anos
 
+                                <br>
+
+                                <strong>Distância:</strong>
+                                ${Math.round(item.distancia)} km
+
                             </p>
 
                         </div>
@@ -804,3 +793,38 @@ window.carregarPares =
         );
 
     };
+function calcularDistancia(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
+    const R = 6371;
+
+    const dLat =
+        (lat2 - lat1) *
+        Math.PI / 180;
+
+    const dLon =
+        (lon2 - lon1) *
+        Math.PI / 180;
+
+    const a =
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
+
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c =
+        2 *
+        Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        );
+
+    return R * c;
+}
