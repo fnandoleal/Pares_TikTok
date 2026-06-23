@@ -154,6 +154,10 @@ window.salvarPerfil =
                 .value = "";
 
             document
+                .getElementById("estado")
+                .value = "";
+
+            document
                 .getElementById("cidade")
                 .value = "";
 
@@ -348,12 +352,6 @@ CARREGAR PARES
 ========================================
 */
 
-/*
-========================================
-CARREGAR PARES
-========================================
-*/
-
 window.carregarPares =
     async function () {
 
@@ -401,55 +399,125 @@ window.carregarPares =
 
         areaPares.innerHTML = "";
 
+        const listaPares = [];
+
         consulta.forEach(
             (documento) => {
 
-                if (documento.id === idPerfil) {
+                if (
+                    documento.id === idPerfil
+                ) {
                     return;
                 }
 
                 const outroPerfil =
                     documento.data();
 
-                if (outroPerfil.situacao !== "ativo") {
+                if (
+                    outroPerfil.situacao !== "ativo"
+                ) {
                     return;
                 }
 
-                if (outroPerfil.sexo !== sexoProcurado) {
+                if (
+                    outroPerfil.sexo !== sexoProcurado
+                ) {
                     return;
                 }
 
-                areaPares.innerHTML +=
-                    `
-            <div class="card mb-3">
+                let prioridade = 3;
 
-                <div class="card-body">
+                if (
+                    outroPerfil.estado === perfil.estado
+                ) {
+                    prioridade = 2;
+                }
 
-                    <h5>
-                        ${outroPerfil.tiktok}
-                    </h5>
+                if (
+                    outroPerfil.estado === perfil.estado &&
+                    outroPerfil.cidade === perfil.cidade
+                ) {
+                    prioridade = 1;
+                }
 
-                    <p>
+                listaPares.push(
+                    {
+                        prioridade,
+                        perfil: outroPerfil
+                    }
+                );
 
-                        Estado:
-                        ${outroPerfil.estado}
+            }
+        );
 
-                        <br>
+        listaPares.sort(
+            (a, b) =>
+                a.prioridade - b.prioridade
+        );
 
-                        Cidade:
-                        ${outroPerfil.cidade}
+        if (
+            listaPares.length === 0
+        ) {
 
-                        <br>
+            areaPares.innerHTML =
+                `
+                <div class="alert alert-warning">
 
-                        Idade:
-                        ${outroPerfil.idade}
-
-                    </p>
+                    Nenhum par encontrado.
 
                 </div>
+                `;
+
+            return;
+        }
+
+        areaPares.innerHTML =
+            `
+            <div class="alert alert-success">
+
+                Pares encontrados:
+                ${listaPares.length}
 
             </div>
             `;
+
+        listaPares.forEach(
+            (item) => {
+
+                const outroPerfil =
+                    item.perfil;
+
+                areaPares.innerHTML +=
+                    `
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <h5>
+                                ${outroPerfil.tiktok}
+                            </h5>
+
+                            <p>
+
+                                <strong>Estado:</strong>
+                                ${outroPerfil.estado}
+
+                                <br>
+
+                                <strong>Cidade:</strong>
+                                ${outroPerfil.cidade}
+
+                                <br>
+
+                                <strong>Idade:</strong>
+                                ${outroPerfil.idade}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+                    `;
 
             }
         );
