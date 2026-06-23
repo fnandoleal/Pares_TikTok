@@ -1,5 +1,76 @@
 /*
 ========================================
+CARREGAR CIDADES
+========================================
+*/
+
+window.carregarCidades =
+async function()
+{
+
+    const estado =
+        document
+            .getElementById("estado")
+            .value;
+
+    const cidade =
+        document
+            .getElementById("cidade");
+
+    if(
+        estado === ""
+    )
+    {
+        return;
+    }
+
+    cidade.innerHTML =
+        '<option value="">Carregando...</option>';
+
+    try
+    {
+
+        const resposta =
+            await fetch(
+                `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estado}/municipios`
+            );
+
+        const municipios =
+            await resposta.json();
+
+        cidade.innerHTML =
+            '<option value="">Selecione</option>';
+
+        municipios.forEach(
+            (municipio) =>
+            {
+
+                cidade.innerHTML +=
+                `
+                <option value="${municipio.nome}">
+                    ${municipio.nome}
+                </option>
+                `;
+
+            }
+        );
+
+    }
+    catch(erro)
+    {
+
+        console.error(
+            erro
+        );
+
+        cidade.innerHTML =
+            '<option value="">Erro ao carregar</option>';
+
+    }
+
+};
+/*
+========================================
 IMPORTA O FIREBASE
 ========================================
 */
