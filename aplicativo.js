@@ -503,54 +503,6 @@ window.excluirPerfil =
 
 /*
 ========================================
-ATIVAR / INATIVAR
-========================================
-*/
-
-window.alternarSituacao =
-    async function (
-        idDocumento,
-        situacaoAtual
-    ) {
-
-        try {
-
-            const novaSituacao =
-                situacaoAtual === "ativo"
-                    ? "inativo"
-                    : "ativo";
-
-            await updateDoc(
-                doc(
-                    bancoDados,
-                    "perfis",
-                    idDocumento
-                ),
-                {
-                    situacao:
-                        novaSituacao
-                }
-            );
-
-            carregarPerfis();
-
-        }
-        catch (erro) {
-
-            console.error(
-                erro
-            );
-
-            alert(
-                "Erro ao alterar situação."
-            );
-
-        }
-
-    };
-
-/*
-========================================
 EDITAR PERFIL
 ========================================
 */
