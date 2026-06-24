@@ -190,11 +190,21 @@ window.salvarPerfil =
 
             const resposta =
                 await fetch(
-                    `https://nominatim.openstreetmap.org/search?city=${cidade}&country=Brazil&format=json&limit=1`
+                    `https://nominatim.openstreetmap.org/search?city=${cidade}&state=${estado}&country=Brazil&format=json&limit=1`
                 );
 
             const dados =
                 await resposta.json();
+
+            if (
+                dados.length === 0
+            ) {
+                alert(
+                    "Não foi possível localizar a cidade."
+                );
+
+                return;
+            }
 
             const latitude =
                 Number(
@@ -205,6 +215,18 @@ window.salvarPerfil =
                 Number(
                     dados[0].lon
                 );
+
+            const codigoValidacao =
+                "PT-" +
+                Math.floor(
+                    1000 +
+                    Math.random() * 9000
+                );
+
+            const dataCadastro =
+                new Date()
+                    .toISOString();
+
             await addDoc(
                 collection(
                     bancoDados,
@@ -218,12 +240,29 @@ window.salvarPerfil =
                     longitude,
                     idade,
                     sexo,
-                    situacao: "ativo"
+
+                    situacao: "pendente",
+
+                    codigoValidacao,
+
+                    dataCadastro,
+
+                    dataValidacao: null,
+
+                    dataExpiracao: null,
+
+                    moderador: null,
+
+                    origem: "publico"
                 }
             );
 
             alert(
-                "Perfil salvo com sucesso."
+                "Cadastro realizado.\n\n" +
+                "Código de validação: " +
+                codigoValidacao +
+                "\n\n" +
+                "Coloque este código na bio/status do TikTok e aguarde aprovação."
             );
 
             /*
@@ -905,3 +944,216 @@ function calcularDistancia(
 
     return R * c;
 }
+
+/*
+========================================
+CARREGAR PENDENTES
+========================================
+*/
+
+window.carregarPendentes =
+    async function () {
+
+        const areaPendentes =
+            document.getElementById(
+                "areaPendentes"
+            );
+
+        if (!areaPendentes) {
+            return;
+        }
+
+        areaPendentes.innerHTML = "";
+
+        const consulta =
+            await getDocs(
+                collection(
+                    bancoDados,
+                    "perfis"
+                )
+            );
+
+        consulta.forEach(
+            (documento) => {
+
+                const perfil =
+                    documento.data();
+
+                if (
+                    perfil.situacao !==
+                    "pendente"
+                ) {
+                    return;
+                }
+
+                const idDocumento =
+                    documento.id;
+
+                areaPendentes.innerHTML +=
+                    `
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <h5>
+
+                                ${perfil.tiktok}
+
+                            </h5>
+
+                            <p>
+
+                                <strong>Cidade:</strong>
+                                ${perfil.cidade}
+
+                                <br>
+
+                                <strong>Estado:</strong>
+                                ${perfil.estado}
+
+                                <br>
+
+                                <strong>Idade:</strong>
+                                ${perfil.idade}
+
+                                <br>
+
+                                <strong>Código:</strong>
+                                ${perfil.codigoValidacao}
+
+                            </p>
+
+                            <div class="d-flex gap-2 flex-wrap">
+
+                                <button
+                                    class="btn btn-success"
+                                    onclick="aprovarPerfil('${idDocumento}')">
+
+                                    Aprovar
+
+                                </button>
+
+                                <button
+                                    class="btn btn-danger"
+                                    onclick="bloquearPerfil('${idDocumento}')">
+
+                                    Bloquear
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    `;
+
+            }
+        );
+
+    };
+    /*
+========================================
+APROVAR PERFIL
+========================================
+*/
+
+window.aprovarPerfil =
+    async function (idDocumento) {
+
+        try {
+
+            const hoje =
+                new Date();
+
+            const expiracao =
+                new Date();
+
+            expiracao.setDate(
+                expiracao.getDate() + 30
+            );
+
+            await updateDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idDocumento
+                ),
+                {
+                    situacao: "ativo",
+
+                    dataValidacao:
+                        hoje.toISOString(),
+
+                    dataExpiracao:
+                        expiracao.toISOString(),
+
+                    moderador:
+                        "Administrador"
+                }
+            );
+
+            alert(
+                "Perfil aprovado."
+            );
+
+            carregarPendentes();
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao aprovar perfil."
+            );
+
+        }
+
+    };
+
+/*
+========================================
+BLOQUEAR PERFIL
+========================================
+*/
+
+window.bloquearPerfil =
+    async function (idDocumento) {
+
+        try {
+
+            await updateDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idDocumento
+                ),
+                {
+                    situacao:
+                        "bloqueado"
+                }
+            );
+
+            alert(
+                "Perfil bloqueado."
+            );
+
+            carregarPendentes();
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao bloquear perfil."
+            );
+
+        }
+
+    };
