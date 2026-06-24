@@ -1021,27 +1021,45 @@ window.carregarPendentes =
                                 <strong>Código:</strong>
                                 ${perfil.codigoValidacao}
 
+                                <br>
+
+                                <strong>Cadastrado:</strong>
+
+                                ${new Date(
+                        perfil.dataCadastro
+                    ).toLocaleDateString(
+                        "pt-BR"
+                    )}
+
                             </p>
 
                             <div class="d-flex gap-2 flex-wrap">
 
-                                <button
-                                    class="btn btn-success"
-                                    onclick="aprovarPerfil('${idDocumento}')">
+    <button
+        class="btn btn-success"
+        onclick="aprovarPerfil('${idDocumento}')">
 
-                                    Aprovar
+        Aprovar
 
-                                </button>
+    </button>
 
-                                <button
-                                    class="btn btn-danger"
-                                    onclick="bloquearPerfil('${idDocumento}')">
+    <button
+        class="btn btn-danger"
+        onclick="bloquearPerfil('${idDocumento}')">
 
-                                    Bloquear
+        Bloquear
 
-                                </button>
+    </button>
 
-                            </div>
+    <button
+        class="btn btn-info"
+        onclick="abrirTikTok('${perfil.tiktok}')">
+
+        Abrir TikTok
+
+    </button>
+
+</div>
 
                         </div>
 
@@ -1052,7 +1070,7 @@ window.carregarPendentes =
         );
 
     };
-    /*
+/*
 ========================================
 APROVAR PERFIL
 ========================================
@@ -1155,5 +1173,26 @@ window.bloquearPerfil =
             );
 
         }
+
+    };
+/*
+========================================
+ABRIR TIKTOK
+========================================
+*/
+
+window.abrirTikTok =
+    function (tiktok) {
+
+        const usuario =
+            tiktok.replace(
+                "@",
+                ""
+            );
+
+        window.open(
+            `https://www.tiktok.com/@${usuario}`,
+            "_blank"
+        );
 
     };
