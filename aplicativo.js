@@ -1080,6 +1080,17 @@ window.aprovarPerfil =
                 expiracao.getDate() + 30
             );
 
+            const moderador =
+                prompt(
+                    "Nome do moderador:"
+                );
+
+            if (
+                !moderador
+            ) {
+                return;
+            }
+
             await updateDoc(
                 doc(
                     bancoDados,
@@ -1096,9 +1107,8 @@ window.aprovarPerfil =
                         expiracao.toISOString(),
 
                     moderador:
-                        prompt(
-                            "Nome do moderador:"
-                        )
+                        moderador
+
                 }
             );
 
