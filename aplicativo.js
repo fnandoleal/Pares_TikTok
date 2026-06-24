@@ -348,6 +348,11 @@ window.carregarPerfis =
 
                 const perfil =
                     documento.data();
+                if (
+                    perfil.situacao !== "ativo"
+                ) {
+                    return;
+                }
 
                 if (
                     busca !== "" &&
@@ -397,9 +402,6 @@ window.carregarPerfis =
 
                         <br>
 
-                        <strong>Situação:</strong>
-                        ${perfil.situacao}
-
                     </p>
 
 <div class="d-flex gap-2 flex-wrap">
@@ -410,19 +412,6 @@ window.carregarPerfis =
     Editar
 
 </button>
-    <button
-        class="btn btn-warning"
-        onclick="alternarSituacao(
-            '${idDocumento}',
-            '${perfil.situacao}'
-        )">
-
-        ${perfil.situacao === "ativo"
-                        ? "Inativar"
-                        : "Ativar"
-                    }
-
-    </button>
 
     <button
         class="btn btn-danger"
@@ -1107,7 +1096,9 @@ window.aprovarPerfil =
                         expiracao.toISOString(),
 
                     moderador:
-                        "Administrador"
+                        prompt(
+                            "Nome do moderador:"
+                        )
                 }
             );
 
