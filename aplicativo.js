@@ -1187,3 +1187,148 @@ window.abrirTikTok =
         );
 
     };
+
+    /*
+========================================
+CARREGAR ATIVOS
+========================================
+*/
+
+window.carregarAtivos =
+    async function () {
+
+        const areaAtivos =
+            document.getElementById(
+                "areaAtivos"
+            );
+
+        if (!areaAtivos) {
+            return;
+        }
+
+        areaAtivos.innerHTML = "";
+
+        const consulta =
+            await getDocs(
+                collection(
+                    bancoDados,
+                    "perfis"
+                )
+            );
+
+        consulta.forEach(
+            (documento) => {
+
+                const perfil =
+                    documento.data();
+
+                if (
+                    perfil.situacao !==
+                    "ativo"
+                ) {
+                    return;
+                }
+
+                const idDocumento =
+                    documento.id;
+
+                let diasRestantes =
+                    "-";
+
+                if (
+                    perfil.dataExpiracao
+                ) {
+
+                    const hoje =
+                        new Date();
+
+                    const expiracao =
+                        new Date(
+                            perfil.dataExpiracao
+                        );
+
+                    diasRestantes =
+                        Math.ceil(
+                            (
+                                expiracao -
+                                hoje
+                            ) /
+                            (
+                                1000 *
+                                60 *
+                                60 *
+                                24
+                            )
+                        );
+
+                }
+
+                areaAtivos.innerHTML +=
+                    `
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <h5>
+
+                                ${perfil.tiktok}
+
+                            </h5>
+
+                            <p>
+
+                                <strong>Validado:</strong>
+
+                                ${perfil.dataValidacao
+                                    ? new Date(
+                                        perfil.dataValidacao
+                                    ).toLocaleDateString(
+                                        "pt-BR"
+                                    )
+                                    : "-"
+                                }
+
+                                <br>
+
+                                <strong>Expira:</strong>
+
+                                ${perfil.dataExpiracao
+                                    ? new Date(
+                                        perfil.dataExpiracao
+                                    ).toLocaleDateString(
+                                        "pt-BR"
+                                    )
+                                    : "-"
+                                }
+
+                                <br>
+
+                                <strong>Moderador:</strong>
+
+                                ${perfil.moderador || "-"}
+
+                                <br>
+
+                                <strong>Dias restantes:</strong>
+
+                                ${diasRestantes}
+
+                            </p>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="bloquearPerfil('${idDocumento}')">
+
+                                Bloquear
+
+                            </button>
+
+                        </div>
+
+                    </div>
+                    `;
+
+            }
+        );
+
+    };
