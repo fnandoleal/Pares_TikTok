@@ -1108,6 +1108,8 @@ window.aprovarPerfil =
 
             carregarPendentes();
 
+            carregarAtivos();
+
         }
         catch (erro) {
 
@@ -1152,6 +1154,8 @@ window.bloquearPerfil =
 
             carregarPendentes();
 
+            carregarAtivos();
+
         }
         catch (erro) {
 
@@ -1188,7 +1192,7 @@ window.abrirTikTok =
 
     };
 
-    /*
+/*
 ========================================
 CARREGAR ATIVOS
 ========================================
@@ -1280,26 +1284,26 @@ window.carregarAtivos =
                                 <strong>Validado:</strong>
 
                                 ${perfil.dataValidacao
-                                    ? new Date(
-                                        perfil.dataValidacao
-                                    ).toLocaleDateString(
-                                        "pt-BR"
-                                    )
-                                    : "-"
-                                }
+                        ? new Date(
+                            perfil.dataValidacao
+                        ).toLocaleDateString(
+                            "pt-BR"
+                        )
+                        : "-"
+                    }
 
                                 <br>
 
                                 <strong>Expira:</strong>
 
                                 ${perfil.dataExpiracao
-                                    ? new Date(
-                                        perfil.dataExpiracao
-                                    ).toLocaleDateString(
-                                        "pt-BR"
-                                    )
-                                    : "-"
-                                }
+                        ? new Date(
+                            perfil.dataExpiracao
+                        ).toLocaleDateString(
+                            "pt-BR"
+                        )
+                        : "-"
+                    }
 
                                 <br>
 
