@@ -257,13 +257,92 @@ window.salvarPerfil =
                 }
             );
 
-            alert(
-                "Cadastro realizado.\n\n" +
-                "Código de validação: " +
-                codigoValidacao +
-                "\n\n" +
-                "Coloque este código na bio/status do TikTok e aguarde aprovação."
-            );
+            document
+                .getElementById(
+                    "areaCodigo"
+                )
+                .style.display =
+                "block";
+
+            document
+                .getElementById(
+                    "areaCodigo"
+                )
+                .innerHTML =
+                `
+<div class="alert alert-success">
+
+    <h4>
+
+        ✅ Cadastro realizado!
+
+    </h4>
+
+    <p>
+
+        Seu código de validação:
+
+    </p>
+
+    <input
+        type="text"
+        id="codigoGerado"
+        class="form-control text-center fw-bold fs-4 mb-3"
+        value="${codigoValidacao}"
+        readonly>
+
+    <div class="alert alert-warning">
+
+        1. Copie o código
+
+        <br>
+
+        2. Coloque o código no
+        Status do TikTok
+
+        <br>
+
+        3. Aguarde aprovação
+
+        <br><br>
+
+        Após aprovado, solicite a um
+        moderador ou administrador do ao vivo
+        o envio dos seus 3 principais pares
+        pelo privado.
+
+        <br><br>
+
+        ⏳ O cadastro permanece ativo
+        por até 30 dias.
+
+        Após esse período será removido
+        automaticamente do sistema.
+
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <button
+            class="btn btn-primary"
+            onclick="copiarCodigo()">
+
+            📋 Copiar Código
+
+        </button>
+
+        <button
+            class="btn btn-dark"
+            onclick="abrirTikTokCadastro()">
+
+            🎵 Abrir TikTok
+
+        </button>
+
+    </div>
+
+</div>
+`;
 
             /*
             Limpa formulário
@@ -414,20 +493,12 @@ window.carregarPerfis =
 </button>
 
     <button
-        class="btn btn-danger"
-        onclick="excluirPerfil('${idDocumento}')">
+    class="btn btn-danger"
+    onclick="solicitarExclusao('${idDocumento}')">
 
-        Excluir
+    Solicitar Exclusão
 
-    </button>
-
-    <a
-    href="pares.html?id=${idDocumento}"
-    class="btn btn-primary">
-
-    Ver Pares
-
-</a>
+</button>
 
 <button
     class="btn btn-info"
@@ -1282,12 +1353,234 @@ window.carregarAtivos =
                             </p>
 
                             <button
-                                class="btn btn-danger"
-                                onclick="bloquearPerfil('${idDocumento}')">
+    class="btn btn-danger"
+    onclick="bloquearPerfil('${idDocumento}')">
 
-                                Bloquear
+    Bloquear
 
-                            </button>
+</button>
+
+<button
+    class="btn btn-primary"
+    onclick="gerarCombinacoes('${idDocumento}')">
+
+    Gerar 3 Combinações
+
+</button>
+
+                        </div>
+
+                    </div>
+                    `;
+
+            }
+        );
+
+    };
+
+/*
+========================================
+COPIAR CÓDIGO
+========================================
+*/
+window.copiarCodigo =
+    async function () {
+
+        try {
+
+            const codigo =
+                document
+                    .getElementById(
+                        "codigoGerado"
+                    )
+                    .value;
+
+            await navigator
+                .clipboard
+                .writeText(
+                    codigo
+                );
+
+            alert(
+                "Código copiado."
+            );
+
+        }
+        catch {
+
+            alert(
+                "Erro ao copiar."
+            );
+
+        }
+
+    };
+
+/*
+========================================
+ABRIR TIKTOK CADASTRO
+========================================
+*/
+
+window.abrirTikTokCadastro =
+    function () {
+
+        window.open(
+            "https://www.tiktok.com",
+            "_blank"
+        );
+
+    };
+
+/*
+========================================
+GERAR COMBINAÇÕES
+========================================
+*/
+
+window.gerarCombinacoes =
+    async function (idPerfil) {
+
+        const areaCombinacoes =
+            document.getElementById(
+                "areaCombinacoes"
+            );
+
+        areaCombinacoes.innerHTML =
+            "Gerando combinações...";
+
+        const documentoPerfil =
+            await getDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idPerfil
+                )
+            );
+
+        const perfil =
+            documentoPerfil.data();
+
+        const sexoProcurado =
+            perfil.sexo === "H"
+                ? "M"
+                : "H";
+
+        const consulta =
+            await getDocs(
+                collection(
+                    bancoDados,
+                    "perfis"
+                )
+            );
+
+        const listaPares = [];
+
+        consulta.forEach(
+            (documento) => {
+
+                if (
+                    documento.id === idPerfil
+                ) {
+                    return;
+                }
+
+                const outroPerfil =
+                    documento.data();
+
+                if (
+                    outroPerfil.situacao !== "ativo"
+                ) {
+                    return;
+                }
+
+                if (
+                    outroPerfil.sexo !== sexoProcurado
+                ) {
+                    return;
+                }
+
+                const distancia =
+                    calcularDistancia(
+                        perfil.latitude,
+                        perfil.longitude,
+                        outroPerfil.latitude,
+                        outroPerfil.longitude
+                    );
+
+                const diferencaIdade =
+                    Math.abs(
+                        outroPerfil.idade -
+                        perfil.idade
+                    );
+
+                listaPares.push(
+                    {
+                        distancia,
+                        diferencaIdade,
+                        perfil:
+                            outroPerfil
+                    }
+                );
+
+            }
+        );
+
+        listaPares.sort(
+            (a, b) => {
+
+                if (
+                    a.distancia !==
+                    b.distancia
+                ) {
+                    return (
+                        a.distancia -
+                        b.distancia
+                    );
+                }
+
+                return (
+                    a.diferencaIdade -
+                    b.diferencaIdade
+                );
+
+            }
+        );
+
+        const melhores =
+            listaPares.slice(
+                0,
+                3
+            );
+
+        areaCombinacoes.innerHTML =
+            `
+            <h4>
+                ${perfil.tiktok}
+            </h4>
+            `;
+
+        melhores.forEach(
+            (item) => {
+
+                areaCombinacoes.innerHTML +=
+                    `
+                    <div class="card mb-2">
+
+                        <div class="card-body">
+
+                            <strong>
+                                ${item.perfil.tiktok}
+                            </strong>
+
+                            <br>
+
+                            ${Math.round(item.distancia)} km
+
+                            <br>
+
+                            Diferença de idade:
+                            ${item.diferencaIdade}
 
                         </div>
 
