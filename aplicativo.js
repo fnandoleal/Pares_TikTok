@@ -1643,67 +1643,19 @@ window.gerarCombinacoes =
             `;
 
         melhores.forEach(
-            (item) => {
+    (item) => {
 
-                const indice =
-                    melhores.indexOf(item);
+        ...
 
-                areaCombinacoes.innerHTML +=
-                    `
-                    <div class="card mb-2">
-
-                        <div class="card-body">
-
-                            <strong>
-                                ${item.perfil.tiktok}
-                            </strong>
-
-                            <br>
-
-                            ${Math.round(item.distancia)} km
-
-                            <br>
-
-                            Diferença de idade:
-                            ${item.diferencaIdade}
-
-                        </div>
-
-                    </div>
-                    `;
-
-                mensagemPares +=
-
-                    (indice + 1) +
-                    "️⃣ " +
-
-                    item.perfil.tiktok +
-
-                    "\n📍 " +
-
-                    Math.round(
-                        item.distancia
-                    ) +
-
-                    " km" +
-
-                    "\n🎂 Diferença de idade: " +
-
-                    item.diferencaIdade +
-
-                    " anos\n\n";
-
-            }
-        );
-
-    };
+    }
+);
 
 mensagemPares +=
     "Boa sorte! ❤️";
 
 areaCombinacoes.innerHTML +=
 
-    `
+`
 <button
     class="btn btn-success mt-3"
     onclick="copiarMensagemPares()">
@@ -1712,6 +1664,8 @@ areaCombinacoes.innerHTML +=
 
 </button>
 `;
+
+};
 
 /*
 ========================================
