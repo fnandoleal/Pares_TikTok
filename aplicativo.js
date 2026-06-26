@@ -1981,3 +1981,145 @@ window.renovarPerfil =
         }
 
     };
+
+    /*
+========================================
+CONSULTAR CADASTRO
+========================================
+*/
+
+window.consultarCadastro =
+    async function () {
+
+        const codigo =
+            prompt(
+                "Informe seu código de validação (PT-XXXX):"
+            );
+
+        if (!codigo) {
+            return;
+        }
+
+        try {
+
+            const consulta =
+                await getDocs(
+                    collection(
+                        bancoDados,
+                        "perfis"
+                    )
+                );
+
+            let encontrado =
+                false;
+
+            consulta.forEach(
+                (documento) => {
+
+                    const perfil =
+                        documento.data();
+
+                    if (
+                        perfil.codigoValidacao ===
+                        codigo
+                    ) {
+
+                        encontrado =
+                            true;
+
+                        let situacao =
+                            perfil.situacao;
+
+                        if (
+                            situacao === "ativo"
+                        ) {
+
+                            situacao =
+                                "✅ Aprovado";
+
+                        }
+                        else if (
+                            situacao ===
+                            "pendente"
+                        ) {
+
+                            situacao =
+                                "⏳ Aguardando aprovação";
+
+                        }
+                        else if (
+                            situacao ===
+                            "bloqueado"
+                        ) {
+
+                            situacao =
+                                "❌ Bloqueado";
+
+                        }
+                        else if (
+                            situacao ===
+                            "exclusao_pendente"
+                        ) {
+
+                            situacao =
+                                "⚠ Exclusão solicitada";
+
+                        }
+
+                        let mensagem =
+
+                            "TikTok: " +
+                            perfil.tiktok +
+
+                            "\n\nSituação:\n" +
+                            situacao;
+
+                        if (
+                            perfil.dataExpiracao
+                        ) {
+
+                            mensagem +=
+
+                                "\n\nValidade até:\n" +
+
+                                new Date(
+                                    perfil.dataExpiracao
+                                ).toLocaleDateString(
+                                    "pt-BR"
+                                );
+
+                        }
+
+                        alert(
+                            mensagem
+                        );
+
+                    }
+
+                }
+            );
+
+            if (
+                !encontrado
+            ) {
+
+                alert(
+                    "Código não encontrado."
+                );
+
+            }
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao consultar cadastro."
+            );
+
+        }
+
+    };
