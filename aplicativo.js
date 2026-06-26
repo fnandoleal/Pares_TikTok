@@ -1601,32 +1601,49 @@ SOLICITAR EXCLUSÃO
 window.solicitarExclusao =
     async function (idDocumento) {
 
-        const codigoExclusao =
-            "EX-" +
-            Math.floor(
-                1000 +
-                Math.random() * 9000
+        try {
+
+            const codigoExclusao =
+                "EX-" +
+                Math.floor(
+                    1000 +
+                    Math.random() * 9000
+                );
+
+            await updateDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idDocumento
+                ),
+                {
+                    situacao:
+                        "exclusao_pendente",
+
+                    codigoExclusao:
+                        codigoExclusao
+                }
             );
 
-        alert(
-            "Código de exclusão:\n\n" +
-            codigoExclusao
-        );
+            alert(
+                "Solicitação registrada.\n\n" +
+                "Código de exclusão:\n\n" +
+                codigoExclusao
+            );
+
+            carregarPerfis();
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao registrar solicitação."
+            );
+
+        }
 
     };
-
-console.log(
-    "solicitarExclusao carregada"
-);
-
-window.TESTE123 = function () {
-
-    alert(
-        "TESTE123"
-    );
-
-};
-
-console.log(
-    "TESTE123 carregado"
-);
