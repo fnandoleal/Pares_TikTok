@@ -1653,7 +1653,7 @@ window.solicitarExclusao =
         }
 
     };
-    
+
     /*
 ========================================
 CARREGAR EXCLUSÕES
@@ -1671,7 +1671,120 @@ window.carregarExclusoes =
             return;
         }
 
-        areaExclusoes.innerHTML =
-            "Função carregada.";
+        areaExclusoes.innerHTML = "";
+
+        const consulta =
+            await getDocs(
+                collection(
+                    bancoDados,
+                    "perfis"
+                )
+            );
+
+        let encontrou = false;
+
+        consulta.forEach(
+            (documento) => {
+
+                const perfil =
+                    documento.data();
+
+                if (
+                    perfil.situacao !==
+                    "exclusao_pendente"
+                ) {
+                    return;
+                }
+
+                encontrou = true;
+
+                areaExclusoes.innerHTML += `
+
+                <div class="card mb-3">
+
+                    <div class="card-body">
+
+                        <h5>
+
+                            ${perfil.tiktok}
+
+                        </h5>
+
+                        <p>
+
+                            <strong>
+                                Código:
+                            </strong>
+
+                            ${perfil.codigoExclusao || "-"}
+
+                            <br>
+
+                            <strong>
+                                Estado:
+                            </strong>
+
+                            ${perfil.estado || "-"}
+
+                            <br>
+
+                            <strong>
+                                Cidade:
+                            </strong>
+
+                            ${perfil.cidade || "-"}
+
+                        </p>
+
+                        <button
+                            class="btn btn-secondary"
+                            onclick="cancelarExclusao('${documento.id}')">
+
+                            Cancelar Exclusão
+
+                        </button>
+
+                        <button
+                            class="btn btn-danger ms-2"
+                            onclick="excluirDefinitivamente('${documento.id}')">
+
+                            Excluir Definitivamente
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        );
+
+        if (!encontrou) {
+
+            areaExclusoes.innerHTML =
+
+                "<p>Nenhuma solicitação de exclusão.</p>";
+
+        }
+
+    };
+
+    window.cancelarExclusao =
+    async function (idDocumento) {
+
+        alert(
+            "Cancelar exclusão ainda será implementado."
+        );
+
+    };
+
+window.excluirDefinitivamente =
+    async function (idDocumento) {
+
+        alert(
+            "Exclusão definitiva ainda será implementada."
+        );
 
     };
