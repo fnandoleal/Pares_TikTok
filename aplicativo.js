@@ -1610,3 +1610,15 @@ window.solicitarExclusao =
 console.log(
     "solicitarExclusao carregada"
 );
+
+window.TESTE123 = function () {
+
+    alert(
+        "TESTE123"
+    );
+
+};
+
+console.log(
+    "TESTE123 carregado"
+);
