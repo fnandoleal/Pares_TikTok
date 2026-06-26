@@ -1492,6 +1492,8 @@ GERAR COMBINAÇÕES
 ========================================
 */
 
+let mensagemPares = "";
+
 window.gerarCombinacoes =
     async function (idPerfil) {
 
@@ -1627,6 +1629,12 @@ window.gerarCombinacoes =
                 3
             );
 
+        mensagemPares =
+
+            "Olá!\n\n" +
+
+            "Seus 3 principais pares encontrados foram:\n\n";
+
         areaCombinacoes.innerHTML =
             `
             <h4>
@@ -1636,6 +1644,9 @@ window.gerarCombinacoes =
 
         melhores.forEach(
             (item) => {
+
+                const indice =
+                    melhores.indexOf(item);
 
                 areaCombinacoes.innerHTML +=
                     `
@@ -1661,10 +1672,46 @@ window.gerarCombinacoes =
                     </div>
                     `;
 
+                mensagemPares +=
+
+                    (indice + 1) +
+                    "️⃣ " +
+
+                    item.perfil.tiktok +
+
+                    "\n📍 " +
+
+                    Math.round(
+                        item.distancia
+                    ) +
+
+                    " km" +
+
+                    "\n🎂 Diferença de idade: " +
+
+                    item.diferencaIdade +
+
+                    " anos\n\n";
+
             }
         );
 
     };
+
+mensagemPares +=
+    "Boa sorte! ❤️";
+
+areaCombinacoes.innerHTML +=
+
+    `
+<button
+    class="btn btn-success mt-3"
+    onclick="copiarMensagemPares()">
+
+    📋 Copiar Mensagem
+
+</button>
+`;
 
 /*
 ========================================
@@ -1906,7 +1953,7 @@ window.sairModeracao =
 
     };
 
-    /*
+/*
 ========================================
 RENOVAR PERFIL
 ========================================
@@ -1982,7 +2029,7 @@ window.renovarPerfil =
 
     };
 
-    /*
+/*
 ========================================
 CONSULTAR CADASTRO
 ========================================
