@@ -427,6 +427,26 @@ window.carregarPerfis =
 
                 const perfil =
                     documento.data();
+
+                if (
+                    perfil.dataExpiracao
+                ) {
+
+                    const hoje =
+                        new Date();
+
+                    const expiracao =
+                        new Date(
+                            perfil.dataExpiracao
+                        );
+
+                    if (
+                        expiracao < hoje
+                    ) {
+                        return;
+                    }
+
+                }
                 if (
                     perfil.situacao ===
                     "exclusao_pendente"
@@ -1266,6 +1286,26 @@ window.carregarAtivos =
                     documento.data();
 
                 if (
+                    perfil.dataExpiracao
+                ) {
+
+                    const hoje =
+                        new Date();
+
+                    const expiracao =
+                        new Date(
+                            perfil.dataExpiracao
+                        );
+
+                    if (
+                        expiracao < hoje
+                    ) {
+                        return;
+                    }
+
+                }
+
+                if (
                     perfil.situacao !==
                     "ativo"
                 ) {
@@ -1495,6 +1535,26 @@ window.gerarCombinacoes =
                     documento.data();
 
                 if (
+                    outroPerfil.dataExpiracao
+                ) {
+
+                    const hoje =
+                        new Date();
+
+                    const expiracao =
+                        new Date(
+                            outroPerfil.dataExpiracao
+                        );
+
+                    if (
+                        expiracao < hoje
+                    ) {
+                        return;
+                    }
+
+                }
+
+                if (
                     outroPerfil.situacao !== "ativo"
                 ) {
                     return;
@@ -1654,7 +1714,7 @@ window.solicitarExclusao =
 
     };
 
-    /*
+/*
 ========================================
 CARREGAR EXCLUSÕES
 ========================================
@@ -1704,38 +1764,42 @@ window.carregarExclusoes =
 
                     <div class="card-body">
 
-                        <h5>
+                        <h4 class="mb-3">
 
-                            ${perfil.tiktok}
+                        ${perfil.tiktok}
 
-                        </h5>
+                        </h4>
+
+                        <div
+                        class="alert alert-warning py-2">
+
+                        <strong>
+
+                         Código de Exclusão:
+
+                        </strong>
+
+                        ${perfil.codigoExclusao || "-"}
+
+                        </div>
 
                         <p>
 
-                            <strong>
-                                Código:
-                            </strong>
+                        <strong>
+                        Estado:
+                        </strong>
 
-                            ${perfil.codigoExclusao || "-"}
+                        ${perfil.estado || "-"}
 
-                            <br>
+                        <br>
 
-                            <strong>
-                                Estado:
-                            </strong>
+                        <strong>
+                        Cidade:
+                        </strong>
 
-                            ${perfil.estado || "-"}
-
-                            <br>
-
-                            <strong>
-                                Cidade:
-                            </strong>
-
-                            ${perfil.cidade || "-"}
+                        ${perfil.cidade || "-"}
 
                         </p>
-
                         <button
                             class="btn btn-secondary"
                             onclick="cancelarExclusao('${documento.id}')">
@@ -1771,20 +1835,47 @@ window.carregarExclusoes =
 
     };
 
-    window.cancelarExclusao =
+window.cancelarExclusao =
     async function (idDocumento) {
 
-        alert(
-            "Cancelar exclusão ainda será implementado."
+        await updateDoc(
+            doc(
+                bancoDados,
+                "perfis",
+                idDocumento
+            ),
+            {
+                situacao: "ativo",
+                codigoExclusao: null
+            }
         );
+
+        carregarExclusoes();
+
+        carregarAtivos();
 
     };
 
 window.excluirDefinitivamente =
     async function (idDocumento) {
 
-        alert(
-            "Exclusão definitiva ainda será implementada."
+        const confirmar =
+            confirm(
+                "Excluir definitivamente?"
+            );
+
+        if (!confirmar) {
+            return;
+        }
+
+        await deleteDoc(
+            doc(
+                bancoDados,
+                "perfis",
+                idDocumento
+            )
         );
+
+        carregarExclusoes();
 
     };
