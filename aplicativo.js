@@ -1591,3 +1591,18 @@ window.gerarCombinacoes =
         );
 
     };
+
+    /*
+========================================
+SOLICITAR EXCLUSÃO
+========================================
+*/
+
+window.solicitarExclusao =
+    async function (idDocumento) {
+
+        alert(
+            "Função de exclusão funcionando."
+        );
+
+    };
