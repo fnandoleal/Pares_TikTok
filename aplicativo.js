@@ -1414,6 +1414,14 @@ window.carregarAtivos =
 
 </button>
 
+<button
+    class="btn btn-success"
+    onclick="renovarPerfil('${idDocumento}')">
+
+    Renovar +30 dias
+
+</button>
+
                         </div>
 
                     </div>
@@ -1880,7 +1888,7 @@ window.excluirDefinitivamente =
 
     };
 
-    /*
+/*
 ========================================
 SAIR MODERAÇÃO
 ========================================
@@ -1895,5 +1903,81 @@ window.sairModeracao =
 
         window.location.href =
             "index.html";
+
+    };
+
+    /*
+========================================
+RENOVAR PERFIL
+========================================
+*/
+
+window.renovarPerfil =
+    async function (idDocumento) {
+
+        const confirmar =
+            confirm(
+                "Renovar este perfil por mais 30 dias?"
+            );
+
+        if (!confirmar) {
+            return;
+        }
+
+        try {
+
+            const documentoPerfil =
+                await getDoc(
+                    doc(
+                        bancoDados,
+                        "perfis",
+                        idDocumento
+                    )
+                );
+
+            const perfil =
+                documentoPerfil.data();
+
+            const expiracao =
+                perfil.dataExpiracao
+                    ? new Date(
+                        perfil.dataExpiracao
+                    )
+                    : new Date();
+
+            expiracao.setDate(
+                expiracao.getDate() + 30
+            );
+
+            await updateDoc(
+                doc(
+                    bancoDados,
+                    "perfis",
+                    idDocumento
+                ),
+                {
+                    dataExpiracao:
+                        expiracao.toISOString()
+                }
+            );
+
+            alert(
+                "Perfil renovado por mais 30 dias."
+            );
+
+            carregarAtivos();
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao renovar perfil."
+            );
+
+        }
 
     };
