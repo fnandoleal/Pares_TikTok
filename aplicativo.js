@@ -428,6 +428,12 @@ window.carregarPerfis =
                 const perfil =
                     documento.data();
                 if (
+                    perfil.situacao ===
+                    "exclusao_pendente"
+                ) {
+                    return;
+                }
+                if (
                     perfil.situacao !== "ativo"
                 ) {
                     return;
@@ -1645,5 +1651,27 @@ window.solicitarExclusao =
             );
 
         }
+
+    };
+    
+    /*
+========================================
+CARREGAR EXCLUSÕES
+========================================
+*/
+window.carregarExclusoes =
+    async function () {
+
+        const areaExclusoes =
+            document.getElementById(
+                "areaExclusoes"
+            );
+
+        if (!areaExclusoes) {
+            return;
+        }
+
+        areaExclusoes.innerHTML =
+            "Função carregada.";
 
     };
