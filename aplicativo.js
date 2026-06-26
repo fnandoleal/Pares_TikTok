@@ -1879,3 +1879,21 @@ window.excluirDefinitivamente =
         carregarExclusoes();
 
     };
+
+    /*
+========================================
+SAIR MODERAÇÃO
+========================================
+*/
+
+window.sairModeracao =
+    function () {
+
+        localStorage.removeItem(
+            "moderador"
+        );
+
+        window.location.href =
+            "index.html";
+
+    };
