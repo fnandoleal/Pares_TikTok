@@ -1606,3 +1606,7 @@ window.solicitarExclusao =
         );
 
     };
+
+console.log(
+    "solicitarExclusao carregada"
+);
