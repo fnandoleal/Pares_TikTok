@@ -23,6 +23,51 @@
 
 <body>
 
+    <!-- ========================================
+         PROTEÇÃO DA MODERAÇÃO
+    ========================================= -->
+
+    <script>
+
+        const senhaSalva =
+            localStorage.getItem(
+                "moderador"
+            );
+
+        if (
+            senhaSalva !== "ok"
+        ) {
+
+            const senha =
+                prompt(
+                    "Senha da moderação:"
+                );
+
+            if (
+                senha === "PTK2026!"
+            ) {
+
+                localStorage.setItem(
+                    "moderador",
+                    "ok"
+                );
+
+            }
+            else {
+
+                alert(
+                    "Acesso negado."
+                );
+
+                window.location.href =
+                    "index.html";
+
+            }
+
+        }
+
+    </script>
+
     <div class="container py-4">
 
         <div class="card sombra-cartao">
@@ -158,19 +203,37 @@
 
                 </div>
 
+                <hr>
+
+                <div class="text-center">
+
+                    <button
+                        class="btn btn-dark"
+                        onclick="sairModeracao()">
+
+                        Sair
+
+                    </button>
+
+                </div>
+
             </div>
 
         </div>
 
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- ========================================
+         BOOTSTRAP JS
+    ========================================= -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
     </script>
 
-    <!-- Aplicação -->
+    <!-- ========================================
+         APLICAÇÃO
+    ========================================= -->
 
     <script
         type="module"
