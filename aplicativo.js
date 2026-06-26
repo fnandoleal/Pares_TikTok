@@ -1592,7 +1592,7 @@ window.gerarCombinacoes =
 
     };
 
-    /*
+/*
 ========================================
 SOLICITAR EXCLUSÃO
 ========================================
@@ -1601,8 +1601,16 @@ SOLICITAR EXCLUSÃO
 window.solicitarExclusao =
     async function (idDocumento) {
 
+        const codigoExclusao =
+            "EX-" +
+            Math.floor(
+                1000 +
+                Math.random() * 9000
+            );
+
         alert(
-            "Função de exclusão funcionando."
+            "Código de exclusão:\n\n" +
+            codigoExclusao
         );
 
     };
