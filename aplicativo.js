@@ -333,7 +333,7 @@ window.salvarPerfil =
 
         <button
             class="btn btn-dark"
-            onclick="abrirTikTokCadastro()">
+            onclick="abrirTikTokCadastro('${tiktok}')">
 
             🎵 Abrir TikTok
 
@@ -1231,21 +1231,16 @@ window.bloquearPerfil =
     };
 /*
 ========================================
-ABRIR TIKTOK
+ABRIR TIKTOK CADASTRO
 ========================================
 */
 
-window.abrirTikTok =
+window.abrirTikTokCadastro =
     function (tiktok) {
 
-        const usuario =
-            tiktok.replace(
-                "@",
-                ""
-            );
-
         window.open(
-            `https://www.tiktok.com/@${usuario}`,
+            "https://www.tiktok.com/" +
+            tiktok,
             "_blank"
         );
 
