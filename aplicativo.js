@@ -2076,7 +2076,7 @@ window.consultarCadastro =
 
         const codigo =
             prompt(
-                "Informe seu código de validação (PT-XXXX):"
+                "Informe seu código de validação (TIK-XXXX):"
             );
 
         if (!codigo) {
