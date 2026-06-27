@@ -1654,6 +1654,19 @@ mensagemPares +=
     "Boa sorte! ❤️";
 
 areaCombinacoes.innerHTML +=
+`
+<button
+    class="btn btn-success mt-3"
+    onclick="copiarMensagemPares()">
+
+    📋 Copiar Mensagem
+
+</button>
+`;
+
+};
+
+areaCombinacoes.innerHTML +=
 
 `
 <button
@@ -2119,6 +2132,40 @@ window.consultarCadastro =
 
             alert(
                 "Erro ao consultar cadastro."
+            );
+
+        }
+
+    };
+
+    /*
+========================================
+COPIAR MENSAGEM DOS PARES
+========================================
+*/
+
+window.copiarMensagemPares =
+    async function () {
+
+        try {
+
+            await navigator.clipboard.writeText(
+                mensagemPares
+            );
+
+            alert(
+                "Mensagem copiada."
+            );
+
+        }
+        catch (erro) {
+
+            console.error(
+                erro
+            );
+
+            alert(
+                "Erro ao copiar."
             );
 
         }
