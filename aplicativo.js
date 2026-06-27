@@ -1625,8 +1625,22 @@ melhores.forEach(
     (item) => {
 
         mensagemPares +=
-            item.perfil.tiktok +
-            "\n";
+
+    item.perfil.tiktok +
+
+    "\n📍 " +
+
+    Math.round(
+        item.distancia
+    ) +
+
+    " km" +
+
+    "\n🎂 Diferença de idade: " +
+
+    item.diferencaIdade +
+
+    " anos\n\n";
 
         areaCombinacoes.innerHTML +=
         `
