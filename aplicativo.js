@@ -1467,22 +1467,6 @@ window.copiarCodigo =
 
 /*
 ========================================
-ABRIR TIKTOK CADASTRO
-========================================
-*/
-
-window.abrirTikTokCadastro =
-    function () {
-
-        window.open(
-            "https://www.tiktok.com",
-            "_blank"
-        );
-
-    };
-
-/*
-========================================
 GERAR COMBINAÇÕES
 ========================================
 */
