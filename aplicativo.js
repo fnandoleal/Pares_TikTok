@@ -1645,18 +1645,21 @@ window.gerarCombinacoes =
 
                     item.perfil.tiktok +
 
+                    "\n🔗 https://www.tiktok.com/" +
+                    item.perfil.tiktok +
+
                     "\n📍 " +
+                    item.perfil.cidade +
 
-                    Math.round(
-                        item.distancia
-                    ) +
+                    " - " +
+                    item.perfil.estado +
 
+                    "\n🚗 " +
+                    Math.round(item.distancia) +
                     " km" +
 
                     "\n🎂 Diferença de idade: " +
-
                     item.diferencaIdade +
-
                     " anos\n\n";
 
                 areaCombinacoes.innerHTML +=
