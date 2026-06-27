@@ -1238,14 +1238,11 @@ ABRIR TIKTOK CADASTRO
 window.abrirTikTokCadastro =
     function (tiktok) {
 
-        window.open(
+        window.location.href =
             "https://www.tiktok.com/" +
-            tiktok,
-            "_blank"
-        );
+            tiktok;
 
     };
-
 /*
 ========================================
 CARREGAR ATIVOS
@@ -1603,47 +1600,47 @@ window.gerarCombinacoes =
         );
 
         const melhores =
-    listaPares.slice(
-        0,
-        3
-    );
+            listaPares.slice(
+                0,
+                3
+            );
 
-mensagemPares =
+        mensagemPares =
 
-    "Olá!\n\n" +
+            "Olá!\n\n" +
 
-    "Seus 3 principais pares encontrados foram:\n\n";
+            "Seus 3 principais pares encontrados foram:\n\n";
 
-areaCombinacoes.innerHTML =
-`
+        areaCombinacoes.innerHTML =
+            `
 <h4>
     ${perfil.tiktok}
 </h4>
 `;
 
-melhores.forEach(
-    (item) => {
+        melhores.forEach(
+            (item) => {
 
-        mensagemPares +=
+                mensagemPares +=
 
-    item.perfil.tiktok +
+                    item.perfil.tiktok +
 
-    "\n📍 " +
+                    "\n📍 " +
 
-    Math.round(
-        item.distancia
-    ) +
+                    Math.round(
+                        item.distancia
+                    ) +
 
-    " km" +
+                    " km" +
 
-    "\n🎂 Diferença de idade: " +
+                    "\n🎂 Diferença de idade: " +
 
-    item.diferencaIdade +
+                    item.diferencaIdade +
 
-    " anos\n\n";
+                    " anos\n\n";
 
-        areaCombinacoes.innerHTML +=
-        `
+                areaCombinacoes.innerHTML +=
+                    `
         <div class="card mb-2">
             <div class="card-body">
 
@@ -1664,14 +1661,14 @@ melhores.forEach(
         </div>
         `;
 
-    }
-);
+            }
+        );
 
-mensagemPares +=
-    "\nBoa sorte! ❤️";
+        mensagemPares +=
+            "\nBoa sorte! ❤️";
 
-    areaCombinacoes.innerHTML +=
-`
+        areaCombinacoes.innerHTML +=
+            `
 <button
     class="btn btn-success mt-3"
     onclick="copiarMensagemPares()">
@@ -1681,7 +1678,7 @@ mensagemPares +=
 </button>
 `;
 
-};
+    };
 /*
 ========================================
 SOLICITAR EXCLUSÃO
@@ -2140,7 +2137,7 @@ window.consultarCadastro =
 
     };
 
-    /*
+/*
 ========================================
 COPIAR MENSAGEM DOS PARES
 ========================================
