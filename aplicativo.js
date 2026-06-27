@@ -1059,6 +1059,16 @@ window.carregarPendentes =
                                 <strong>Código:</strong>
                                 ${perfil.codigoValidacao}
 
+                                <button
+                                class="btn btn-secondary"
+                                onclick="copiarCodigoPerfil(
+                                '${perfil.codigoValidacao}'
+                                )">
+
+                                📋 Copiar Código
+
+                                </button>
+
                                 <br>
 
                                 <strong>Cadastrado:</strong>
