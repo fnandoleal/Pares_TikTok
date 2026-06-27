@@ -1624,50 +1624,60 @@ window.gerarCombinacoes =
         );
 
         const melhores =
-            listaPares.slice(
-                0,
-                3
-            );
+    listaPares.slice(
+        0,
+        3
+    );
 
-        mensagemPares =
+mensagemPares =
 
-            "Olá!\n\n" +
+    "Olá!\n\n" +
 
-            "Seus 3 principais pares encontrados foram:\n\n";
+    "Seus 3 principais pares encontrados foram:\n\n";
 
-        areaCombinacoes.innerHTML =
-            `
-            <h4>
-                ${perfil.tiktok}
-            </h4>
-            `;
+areaCombinacoes.innerHTML =
+`
+<h4>
+    ${perfil.tiktok}
+</h4>
+`;
 
-        melhores.forEach(
+melhores.forEach(
     (item) => {
 
-        ...
+        mensagemPares +=
+            item.perfil.tiktok +
+            "\n";
+
+        areaCombinacoes.innerHTML +=
+        `
+        <div class="card mb-2">
+            <div class="card-body">
+
+                <strong>
+                    ${item.perfil.tiktok}
+                </strong>
+
+                <br>
+
+                ${Math.round(item.distancia)} km
+
+                <br>
+
+                Diferença de idade:
+                ${item.diferencaIdade}
+
+            </div>
+        </div>
+        `;
 
     }
 );
 
 mensagemPares +=
-    "Boa sorte! ❤️";
+    "\nBoa sorte! ❤️";
 
 areaCombinacoes.innerHTML +=
-`
-<button
-    class="btn btn-success mt-3"
-    onclick="copiarMensagemPares()">
-
-    📋 Copiar Mensagem
-
-</button>
-`;
-
-};
-
-areaCombinacoes.innerHTML +=
-
 `
 <button
     class="btn btn-success mt-3"
