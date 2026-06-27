@@ -1656,6 +1656,18 @@ melhores.forEach(
 mensagemPares +=
     "\nBoa sorte! ❤️";
 
+    areaCombinacoes.innerHTML +=
+`
+<button
+    class="btn btn-success mt-3"
+    onclick="copiarMensagemPares()">
+
+    📋 Copiar Mensagem
+
+</button>
+`;
+
+};
 /*
 ========================================
 SOLICITAR EXCLUSÃO
