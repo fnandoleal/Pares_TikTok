@@ -1399,6 +1399,12 @@ window.carregarAtivos =
 
                                 <br>
 
+                                <strong>Código:</strong>
+
+                                ${perfil.codigoValidacao}
+
+                                <br>
+
                                 <strong>Dias restantes:</strong>
 
                                 ${diasRestantes}
@@ -1426,6 +1432,16 @@ window.carregarAtivos =
     onclick="renovarPerfil('${idDocumento}')">
 
     Renovar +30 dias
+
+</button>
+
+<button
+    class="btn btn-secondary"
+    onclick="copiarCodigoPerfil(
+        '${perfil.codigoValidacao}'
+    )">
+
+    📋 Copiar Código
 
 </button>
 
@@ -2186,6 +2202,35 @@ window.consultarCadastro =
 COPIAR MENSAGEM DOS PARES
 ========================================
 */
+/*
+========================================
+COPIAR CÓDIGO PERFIL
+========================================
+*/
+
+window.copiarCodigoPerfil =
+    async function (codigo) {
+
+        try {
+
+            await navigator.clipboard.writeText(
+                codigo
+            );
+
+            alert(
+                "Código copiado."
+            );
+
+        }
+        catch {
+
+            alert(
+                "Erro ao copiar código."
+            );
+
+        }
+
+    };
 
 window.copiarMensagemPares =
     async function () {
