@@ -621,9 +621,6 @@ window.editarPerfil =
             const perfil =
                 documentoPerfil.data();
 
-            const tiktokParticipante =
-                perfil.tiktok;
-
             const novoTikTok =
                 prompt(
                     "TikTok:",
@@ -1238,12 +1235,6 @@ ABRIR TIKTOK CADASTRO
 ========================================
 */
 
-/*
-========================================
-ABRIR TIKTOK CADASTRO
-========================================
-*/
-
 window.abrirTikTokCadastro =
     function (tiktok) {
 
@@ -1516,6 +1507,9 @@ window.gerarCombinacoes =
 
         const perfil =
             documentoPerfil.data();
+
+        const tiktokParticipante =
+            perfil.tiktok;
 
         const sexoProcurado =
             perfil.sexo === "H"
@@ -1997,9 +1991,6 @@ window.renovarPerfil =
 
             const perfil =
                 documentoPerfil.data();
-
-            const tiktokParticipante =
-                perfil.tiktok;
 
             const expiracao =
                 perfil.dataExpiracao
