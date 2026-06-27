@@ -1238,7 +1238,28 @@ ABRIR TIKTOK CADASTRO
 ========================================
 */
 
+/*
+========================================
+ABRIR TIKTOK CADASTRO
+========================================
+*/
+
 window.abrirTikTokCadastro =
+    function (tiktok) {
+
+        window.location.href =
+            "https://www.tiktok.com/" +
+            tiktok;
+
+    };
+
+/*
+========================================
+ABRIR TIKTOK
+========================================
+*/
+
+window.abrirTikTok =
     function (tiktok) {
 
         window.location.href =
@@ -1617,6 +1638,8 @@ window.gerarCombinacoes =
         areaCombinacoes.innerHTML =
             `
 <h4>
+    Combinações para:
+    <br>
     ${perfil.tiktok}
 </h4>
 `;
@@ -1671,7 +1694,7 @@ window.gerarCombinacoes =
             "\nBoa sorte! ❤️";
 
         areaCombinacoes.innerHTML +=
-`
+            `
 <div class="d-flex gap-2 flex-wrap mt-3">
 
     <button
@@ -1974,6 +1997,9 @@ window.renovarPerfil =
 
             const perfil =
                 documentoPerfil.data();
+
+            const tiktokParticipante =
+                perfil.tiktok;
 
             const expiracao =
                 perfil.dataExpiracao
