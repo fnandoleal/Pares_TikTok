@@ -621,6 +621,9 @@ window.editarPerfil =
             const perfil =
                 documentoPerfil.data();
 
+            const tiktokParticipante =
+                perfil.tiktok;
+
             const novoTikTok =
                 prompt(
                     "TikTok:",
@@ -1668,14 +1671,35 @@ window.gerarCombinacoes =
             "\nBoa sorte! ❤️";
 
         areaCombinacoes.innerHTML +=
-            `
-<button
-    class="btn btn-success mt-3"
-    onclick="copiarMensagemPares()">
+`
+<div class="d-flex gap-2 flex-wrap mt-3">
 
-    📋 Copiar Mensagem
+    <button
+        class="btn btn-success"
+        onclick="copiarMensagemPares()">
 
-</button>
+        📋 Copiar Mensagem
+
+    </button>
+
+    <button
+        class="btn btn-primary"
+        onclick="abrirTikTok('${tiktokParticipante}')">
+
+        🎵 Abrir TikTok
+
+    </button>
+
+    <button
+        class="btn btn-info"
+        onclick="copiarTikTok('${tiktokParticipante}')">
+
+        📋 Copiar @TikTok
+
+    </button>
+
+</div>
+
 `;
 
     };
