@@ -15,6 +15,12 @@ let quantidadeAnterior = 0;
 
 let ultimoNomeExibido = "";
 
+/*
+
+# NOME EM DESTAQUE
+
+*/
+
 function mostrarParticipanteDestaque() {
 
 if (
@@ -50,6 +56,7 @@ ultimoNomeExibido =
     sorteado.tiktok;
 
 const nome =
+
     document.getElementById(
         "nomeDestaque"
     );
@@ -76,6 +83,12 @@ setTimeout(
 
 }
 
+/*
+
+# ROTAÇÃO ALEATÓRIA
+
+*/
+
 function iniciarRotacao() {
 
 mostrarParticipanteDestaque();
@@ -93,21 +106,40 @@ setTimeout(
 
 }
 
+/*
+
+# NOVO PARTICIPANTE
+
+*/
+
 function exibirNovoParticipante(
 tiktok
 ) {
 
+const painelPrincipal =
+
+    document.getElementById(
+        "painelPrincipal"
+    );
+
 const area =
+
     document.getElementById(
         "novoCadastro"
     );
 
-if (!area) {
+if (
+    !painelPrincipal ||
+    !area
+) {
     return;
 }
 
+painelPrincipal.style.display =
+    "none";
+
 area.style.display =
-    "block";
+    "flex";
 
 area.innerHTML =
 
@@ -131,6 +163,9 @@ setTimeout(
         area.style.display =
             "none";
 
+        painelPrincipal.style.display =
+            "flex";
+
     },
     tempoAleatorio
 );
@@ -140,6 +175,7 @@ setTimeout(
 function animarTotal() {
 
 const total =
+
     document.getElementById(
         "totalParticipantes"
     );
@@ -181,14 +217,10 @@ collection(
                 doc.data();
 
             if (
-
                 perfil.situacao ===
                 "ativo"
-
                 &&
-
                 perfil.tiktok
-
             ) {
 
                 listaNova.push(
@@ -207,6 +239,7 @@ collection(
         listaNova.length;
 
     const elementoTotal =
+
         document.getElementById(
             "totalParticipantes"
         );
@@ -232,6 +265,7 @@ collection(
         animarTotal();
 
         const ultimo =
+
             listaNova[
                 listaNova.length - 1
             ];

@@ -29,15 +29,11 @@ body{
 
 }
 
-#painel{
+#painelPrincipal{
 
     width:100%;
 
     height:100vh;
-
-    padding-top:30px;
-
-    box-sizing:border-box;
 
     display:flex;
 
@@ -78,7 +74,19 @@ body{
 
     letter-spacing:8px;
 
+    color:white;
+
+    background:rgba(0,0,0,0.55);
+
+    padding:10px 30px;
+
+    border-radius:20px;
+
     margin-bottom:50px;
+
+    text-shadow:
+        0 0 10px #000,
+        0 0 20px #000;
 
 }
 
@@ -104,23 +112,28 @@ body{
 
     display:none;
 
-    margin-top:40px;
+    width:100%;
 
-    padding:30px;
+    height:100vh;
 
-    border-radius:25px;
+    justify-content:center;
 
-    background:#ff4fa0;
+    align-items:center;
 
-    color:white;
+    text-align:center;
 
-    font-size:90px;
+    flex-direction:column;
+
+    font-size:100px;
 
     font-weight:bold;
 
-    box-shadow:
-        0 0 20px #ff4fa0,
-        0 0 40px #ff4fa0;
+    color:white;
+
+    text-shadow:
+        0 0 15px #ff4fa0,
+        0 0 30px #ff4fa0,
+        0 0 50px #ff4fa0;
 
 }
 
@@ -130,9 +143,8 @@ body{
 
 <body>
 
-<div id="painel">
+<div id="painelPrincipal">
 
-```
 <div id="totalParticipantes">
 
     0
@@ -151,10 +163,9 @@ body{
 
 </div>
 
-<div id="novoCadastro">
-
 </div>
-```
+
+<div id="novoCadastro">
 
 </div>
 
