@@ -98,3 +98,192 @@ function iniciarRotacao() {
     );
 
 }
+
+/*
+========================================
+NOVO PARTICIPANTE
+========================================
+*/
+
+function exibirNovoParticipante(
+    tiktok
+) {
+
+    const painelPrincipal =
+        document.getElementById(
+            "painelPrincipal"
+        );
+
+    const area =
+        document.getElementById(
+            "novoCadastro"
+        );
+
+    if (
+        !painelPrincipal ||
+        !area
+    ) {
+        return;
+    }
+
+    painelPrincipal.style.display =
+        "none";
+
+    area.style.display =
+        "flex";
+
+    area.innerHTML =
+
+        `
+        🎉 NOVO CADASTRO
+
+        <br><br>
+
+        ${tiktok}
+        `;
+
+    const tempoAleatorio =
+
+        Math.floor(
+            Math.random() * 10001
+        ) + 30000;
+
+    setTimeout(
+        () => {
+
+            area.style.display =
+                "none";
+
+            painelPrincipal.style.display =
+                "flex";
+
+        },
+        tempoAleatorio
+    );
+
+}
+
+function animarTotal() {
+
+    const total =
+
+        document.getElementById(
+            "totalParticipantes"
+        );
+
+    if (!total) {
+        return;
+    }
+
+    total.style.transform =
+        "scale(1.15)";
+
+    setTimeout(
+        () => {
+
+            total.style.transform =
+                "scale(1)";
+
+        },
+        300
+    );
+
+}
+
+onSnapshot(
+
+    collection(
+        bancoDados,
+        "perfis"
+    ),
+
+    (snapshot) => {
+
+        const listaNova = [];
+
+        snapshot.forEach(
+            (documento) => {
+
+                const perfil =
+                    documento.data();
+
+                if (
+                    perfil.situacao ===
+                    "ativo"
+                    &&
+                    perfil.tiktok
+                ) {
+
+                    listaNova.push(
+                        perfil
+                    );
+
+                }
+
+            }
+        );
+
+        participantes =
+            listaNova;
+
+        const totalAtual =
+            listaNova.length;
+
+        const elementoTotal =
+
+            document.getElementById(
+                "totalParticipantes"
+            );
+
+        if (
+            elementoTotal
+        ) {
+
+            elementoTotal.innerHTML =
+                totalAtual;
+
+        }
+
+        let perfilRecente =
+            null;
+
+        listaNova.forEach(
+            (perfil) => {
+
+                if (
+
+                    perfil.dataAprovacaoPainel &&
+
+                    perfil.dataAprovacaoPainel >
+                    ultimaAprovacao
+
+                ) {
+
+                    ultimaAprovacao =
+                        perfil.dataAprovacaoPainel;
+
+                    perfilRecente =
+                        perfil;
+
+                }
+
+            }
+        );
+
+        if (
+            perfilRecente
+        ) {
+
+            animarTotal();
+
+            exibirNovoParticipante(
+                perfilRecente.tiktok
+            );
+
+        }
+
+    }
+
+);
+
+iniciarRotacao();
