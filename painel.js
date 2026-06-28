@@ -15,6 +15,8 @@ let quantidadeAnterior = 0;
 
 let ultimoNomeExibido = "";
 
+let ultimaAprovacao = 0;
+
 /*
 
 # NOME EM DESTAQUE
@@ -253,14 +255,42 @@ collection(
 
     }
 
-    if (
+    let perfilRecente = null;
 
-        quantidadeAnterior > 0 &&
+listaNova.forEach(
+    (perfil) => {
 
-        totalAtual >
-        quantidadeAnterior
+        if (
 
-    ) {
+            perfil.dataAprovacaoPainel &&
+
+            perfil.dataAprovacaoPainel >
+            ultimaAprovacao
+
+        ) {
+
+            ultimaAprovacao =
+                perfil.dataAprovacaoPainel;
+
+            perfilRecente =
+                perfil;
+
+        }
+
+    }
+);
+
+if (
+    perfilRecente
+) {
+
+    animarTotal();
+
+    exibirNovoParticipante(
+        perfilRecente.tiktok
+    );
+
+} {
 
         animarTotal();
 

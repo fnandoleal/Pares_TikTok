@@ -84,7 +84,8 @@ import {
     where,
     deleteDoc,
     updateDoc,
-    doc
+    doc,
+    onSnapshot
 }
     from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -1003,32 +1004,35 @@ window.carregarPendentes =
 
         areaPendentes.innerHTML = "";
 
-        const consulta =
-            await getDocs(
-                collection(
-                    bancoDados,
-                    "perfis"
-                )
-            );
+        onSnapshot(
 
-        consulta.forEach(
-            (documento) => {
+            collection(
+                bancoDados,
+                "perfis"
+            ),
 
-                const perfil =
-                    documento.data();
+            (consulta) => {
 
-                if (
-                    perfil.situacao !==
-                    "pendente"
-                ) {
-                    return;
-                }
+                areaPendentes.innerHTML = "";
 
-                const idDocumento =
-                    documento.id;
+                consulta.forEach(
+                    (documento) => {
 
-                areaPendentes.innerHTML +=
-                    `
+                        const perfil =
+                            documento.data();
+
+                        if (
+                            perfil.situacao !==
+                            "pendente"
+                        ) {
+                            return;
+                        }
+
+                        const idDocumento =
+                            documento.id;
+
+                        areaPendentes.innerHTML +=
+                            `
                     <div class="card mb-3">
 
                         <div class="card-body">
@@ -1074,10 +1078,10 @@ window.carregarPendentes =
                                 <strong>Cadastrado:</strong>
 
                                 ${new Date(
-                        perfil.dataCadastro
-                    ).toLocaleDateString(
-                        "pt-BR"
-                    )}
+                                perfil.dataCadastro
+                            ).toLocaleDateString(
+                                "pt-BR"
+                            )}
 
                             </p>
 
@@ -1114,7 +1118,11 @@ window.carregarPendentes =
                     </div>
                     `;
 
+                    }
+                );
+
             }
+
         );
 
     };
@@ -1166,8 +1174,10 @@ window.aprovarPerfil =
                         expiracao.toISOString(),
 
                     moderador:
-                        moderador
+                        moderador,
 
+                    dataAprovacaoPainel:
+                        Date.now()
                 }
             );
 
