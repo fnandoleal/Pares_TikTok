@@ -57,29 +57,35 @@ do {
 
     if (sorteio < 40) {
 
-        estado = 1;
+estado = 1;
 
-    }
-    else if (sorteio < 65) {
+}
+else if (sorteio < 65) {
 
-        estado = 2;
+estado = 2;
 
-    }
-    else if (sorteio < 80) {
+}
+else if (sorteio < 80) {
 
-        estado = 3;
+estado = 3;
 
-    }
-    else if (sorteio < 90) {
+}
+else if (sorteio < 90) {
 
-        estado = 4;
+estado = 4;
 
-    }
-    else {
+}
+else if (sorteio < 95) {
 
-        estado = 5;
+estado = 5;
 
-    }
+}
+else {
+
+estado = 6;
+
+}
+
 
 }
 while (
@@ -192,6 +198,25 @@ if (estado === 2) {
         EXPIRA EM 30 DIAS`;
 
 }
+
+if (estado === 6) {
+
+propaganda.innerHTML =
+
+    `
+    DÚVIDAS?
+
+    <br><br>
+
+    PERGUNTE AO
+
+    <br>
+
+    ANFITRIÃO
+    `;
+
+}
+
 
 }
 
