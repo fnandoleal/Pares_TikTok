@@ -15,6 +15,8 @@ let ultimoNomeExibido = "";
 
 let ultimaAprovacao = 0;
 
+let mostrarPropaganda = false;
+
 /*
 ========================================
 NOME EM DESTAQUE
