@@ -113,7 +113,9 @@ area.innerHTML =
 
     `
     🎉 NOVO CADASTRO
+
     <br><br>
+
     ${tiktok}
     `;
 
@@ -179,12 +181,14 @@ collection(
                 doc.data();
 
             if (
+
                 perfil.situacao ===
                 "ativo"
 
                 &&
 
                 perfil.tiktok
+
             ) {
 
                 listaNova.push(
@@ -217,9 +221,12 @@ collection(
     }
 
     if (
+
         quantidadeAnterior > 0 &&
+
         totalAtual >
         quantidadeAnterior
+
     ) {
 
         animarTotal();
