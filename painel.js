@@ -40,10 +40,16 @@ const total =
         "totalParticipantes"
     );
 
+const textoTotal =
+    document.getElementById(
+        "textoTotal"
+    );
+
 if (
     !nome ||
     !propaganda ||
-    !total
+    !total ||
+    !textoTotal
 ) {
     return;
 }
@@ -57,35 +63,34 @@ do {
 
     if (sorteio < 40) {
 
-estado = 1;
+        estado = 1;
 
-}
-else if (sorteio < 65) {
+    }
+    else if (sorteio < 65) {
 
-estado = 2;
+        estado = 2;
 
-}
-else if (sorteio < 80) {
+    }
+    else if (sorteio < 80) {
 
-estado = 3;
+        estado = 3;
 
-}
-else if (sorteio < 90) {
+    }
+    else if (sorteio < 90) {
 
-estado = 4;
+        estado = 4;
 
-}
-else if (sorteio < 95) {
+    }
+    else if (sorteio < 95) {
 
-estado = 5;
+        estado = 5;
 
-}
-else {
+    }
+    else {
 
-estado = 6;
+        estado = 6;
 
-}
-
+    }
 
 }
 while (
@@ -96,12 +101,16 @@ while (
 ultimoEstado =
     estado;
 
-if (
-    estado === 1
-) {
+if (estado === 1) {
 
     propaganda.style.display =
         "none";
+
+    total.style.display =
+        "block";
+
+    textoTotal.style.display =
+        "block";
 
     nome.style.display =
         "block";
@@ -139,6 +148,7 @@ if (
         sorteado.tiktok;
 
     nome.innerHTML =
+        "👤 " +
         sorteado.tiktok;
 
     return;
@@ -148,6 +158,12 @@ if (
 nome.style.display =
     "none";
 
+total.style.display =
+    "none";
+
+textoTotal.style.display =
+    "none";
+
 propaganda.style.display =
     "block";
 
@@ -155,124 +171,122 @@ if (estado === 2) {
 
     propaganda.innerHTML =
 
-        `${total.innerHTML} CADASTRADOS
+        `QUER PARTICIPAR?
+
         <br><br>
-        QUER PARTICIPAR?
-        <br><br>
+
         tinyurl.com/paresaovivo`;
 
 }
 
-                if (estado === 3) {
+if (estado === 3) {
 
-                    propaganda.innerHTML =
+    propaganda.innerHTML =
 
-                    `${total.innerHTML} CADASTRADOS
+        `COMBINAÇÃO POR
+
         <br><br>
-        COMBINAÇÃO POR
-        <br>
+
         IDADE E DISTÂNCIA`;
 
 }
 
-                if (estado === 4) {
+if (estado === 4) {
 
-                    propaganda.innerHTML =
+    propaganda.innerHTML =
 
-                    `${total.innerHTML} CADASTRADOS
+        `RECEBA ATÉ
+
         <br><br>
-        RECEBA ATÉ
-        <br>
+
         3 MELHORES PARES`;
 
 }
 
-                if (estado === 5) {
+if (estado === 5) {
 
-                    propaganda.innerHTML =
+    propaganda.innerHTML =
 
-                    `${total.innerHTML} CADASTRADOS
+        `SEU PERFIL
+
         <br><br>
-        SEU PERFIL
-        <br>
+
         EXPIRA EM 30 DIAS`;
 
 }
 
 if (estado === 6) {
 
-propaganda.innerHTML =
+    propaganda.innerHTML =
 
-    `
-    DÚVIDAS?
+        `DÚVIDAS?
 
-    <br><br>
+        <br><br>
 
-    PERGUNTE AO
+        PERGUNTE AO
 
-    <br>
+        <br>
 
-    ANFITRIÃO
-    `;
+        ANFITRIÃO`;
+
+}
 
 }
 
 
-}
+function iniciarRotacao() {
 
-                function iniciarRotacao() {
+    mostrarParticipanteDestaque();
 
-                    mostrarParticipanteDestaque();
+    const tempoAleatorio =
 
-                const tempoAleatorio =
+        Math.floor(
+            Math.random() * 2001
+        ) + 8000;
 
-                Math.floor(
-                Math.random() * 2001
-                ) + 8000;
-
-                setTimeout(
-                iniciarRotacao,
-                tempoAleatorio
-                );
+    setTimeout(
+        iniciarRotacao,
+        tempoAleatorio
+    );
 
 }
 
-                /*
-                ========================================
-                NOVO PARTICIPANTE
-                ========================================
-                */
+/*
+========================================
+NOVO PARTICIPANTE
+========================================
+*/
 
-                function exibirNovoParticipante(
-                tiktok
-                ) {
+function exibirNovoParticipante(
+    tiktok
+) {
 
     const painelPrincipal =
-                document.getElementById(
-                "painelPrincipal"
-                );
+        document.getElementById(
+            "painelPrincipal"
+        );
 
-                const area =
-                document.getElementById(
-                "novoCadastro"
-                );
+    const area =
+        document.getElementById(
+            "novoCadastro"
+        );
 
-                if (
-                !painelPrincipal ||
-                !area
-                ) {
+    if (
+        !painelPrincipal ||
+        !area
+    ) {
         return;
     }
 
-                painelPrincipal.style.display =
-                "none";
+    painelPrincipal.style.display =
+        "none";
 
-                area.style.display =
-                "flex";
+    area.style.display =
+        "flex";
 
-                area.innerHTML =
+    area.innerHTML =
 
-                `
+        `
                 🎉 NOVO CADASTRO
 
                 <br><br>
@@ -280,112 +294,112 @@ propaganda.innerHTML =
                     ${tiktok}
                     `;
 
-                    const tempoAleatorio =
+    const tempoAleatorio =
 
-                    Math.floor(
-                    Math.random() * 10001
-                    ) + 30000;
+        Math.floor(
+            Math.random() * 10001
+        ) + 30000;
 
-                    setTimeout(
+    setTimeout(
         () => {
 
-                        area.style.display =
-                        "none";
+            area.style.display =
+                "none";
 
-                    painelPrincipal.style.display =
-                    "flex";
+            painelPrincipal.style.display =
+                "flex";
 
         },
-                    tempoAleatorio
-                    );
+        tempoAleatorio
+    );
 
 }
 
-                    function animarTotal() {
+function animarTotal() {
 
     const total =
 
-                    document.getElementById(
-                    "totalParticipantes"
-                    );
+        document.getElementById(
+            "totalParticipantes"
+        );
 
-                    if (!total) {
+    if (!total) {
         return;
     }
 
-                    total.style.transform =
-                    "scale(1.15)";
+    total.style.transform =
+        "scale(1.15)";
 
-                    setTimeout(
+    setTimeout(
         () => {
 
-                        total.style.transform =
-                        "scale(1)";
+            total.style.transform =
+                "scale(1)";
 
         },
-                    300
-                    );
+        300
+    );
 
 }
 
-                    onSnapshot(
+onSnapshot(
 
-                    collection(
-                    bancoDados,
-                    "perfis"
-                    ),
+    collection(
+        bancoDados,
+        "perfis"
+    ),
 
     (snapshot) => {
 
         const listaNova = [];
 
-                    snapshot.forEach(
+        snapshot.forEach(
             (documento) => {
 
                 const perfil =
                     documento.data();
 
-                    if (
+                if (
                     perfil.situacao ===
                     "ativo"
                     &&
                     perfil.tiktok
-                    ) {
+                ) {
 
-                        listaNova.push(
-                            perfil
-                        );
+                    listaNova.push(
+                        perfil
+                    );
 
                 }
 
             }
-                    );
+        );
 
-                    participantes =
-                    listaNova;
+        participantes =
+            listaNova;
 
-                    const totalAtual =
-                    listaNova.length;
+        const totalAtual =
+            listaNova.length;
 
-                    const elementoTotal =
+        const elementoTotal =
 
-                    document.getElementById(
-                    "totalParticipantes"
-                    );
+            document.getElementById(
+                "totalParticipantes"
+            );
 
-                    if (
-                    elementoTotal
-                    ) {
+        if (
+            elementoTotal
+        ) {
 
-                        elementoTotal.innerHTML =
-                        totalAtual;
+            elementoTotal.innerHTML =
+                totalAtual;
 
         }
 
-                    let perfilRecente =
-                    null;
+        let perfilRecente =
+            null;
 
-                    listaNova.forEach(
+        listaNova.forEach(
             (perfil) => {
 
                 if (
@@ -395,33 +409,33 @@ propaganda.innerHTML =
                     perfil.dataAprovacaoPainel >
                     ultimaAprovacao
 
-                    ) {
+                ) {
 
-                        ultimaAprovacao =
+                    ultimaAprovacao =
                         perfil.dataAprovacaoPainel;
 
                     perfilRecente =
-                    perfil;
+                        perfil;
 
                 }
 
             }
-                    );
+        );
 
-                    if (
-                    perfilRecente
-                    ) {
+        if (
+            perfilRecente
+        ) {
 
-                        animarTotal();
+            animarTotal();
 
-                    exibirNovoParticipante(
-                    perfilRecente.tiktok
-                    );
+            exibirNovoParticipante(
+                perfilRecente.tiktok
+            );
 
         }
 
     }
 
-                    );
+);
 
-                    iniciarRotacao();
+iniciarRotacao();
