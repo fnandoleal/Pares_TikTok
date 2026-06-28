@@ -23,64 +23,98 @@ NOME EM DESTAQUE
 
 function mostrarParticipanteDestaque() {
 
-    if (
-        participantes.length === 0
-    ) {
-        return;
-    }
+const nome =
 
-    let sorteado;
-
-    do {
-
-        sorteado =
-
-            participantes[
-                Math.floor(
-                    Math.random() *
-                    participantes.length
-                )
-            ];
-
-    }
-    while (
-
-        participantes.length > 1 &&
-
-        sorteado.tiktok ===
-        ultimoNomeExibido
-
+    document.getElementById(
+        "nomeDestaque"
     );
 
-    ultimoNomeExibido =
-        sorteado.tiktok;
+const propaganda =
 
-    const nome =
-
-        document.getElementById(
-            "nomeDestaque"
-        );
-
-    if (!nome) {
-        return;
-    }
-
-    nome.style.opacity = "0";
-
-    setTimeout(
-        () => {
-
-            nome.innerHTML =
-                sorteado.tiktok;
-
-            nome.style.opacity =
-                "1";
-
-        },
-        500
+    document.getElementById(
+        "mensagemDivulgacao"
     );
+
+if (
+    !nome ||
+    !propaganda
+) {
+    return;
+}
+
+mostrarPropaganda =
+    !mostrarPropaganda;
+
+if (
+    mostrarPropaganda
+) {
+
+    nome.style.display =
+        "none";
+
+    propaganda.style.display =
+        "block";
+
+    return;
 
 }
+
+propaganda.style.display =
+    "none";
+
+nome.style.display =
+    "block";
+
+if (
+    participantes.length === 0
+) {
+    return;
+}
+
+let sorteado;
+
+do {
+
+    sorteado =
+
+        participantes[
+            Math.floor(
+                Math.random() *
+                participantes.length
+            )
+        ];
+
+}
+while (
+
+    participantes.length > 1 &&
+
+    sorteado.tiktok ===
+    ultimoNomeExibido
+
+);
+
+ultimoNomeExibido =
+    sorteado.tiktok;
+
+nome.style.opacity =
+    "0";
+
+setTimeout(
+    () => {
+
+        nome.innerHTML =
+            sorteado.tiktok;
+
+        nome.style.opacity =
+            "1";
+
+    },
+    500
+);
+
+}
+
 
 function iniciarRotacao() {
 
