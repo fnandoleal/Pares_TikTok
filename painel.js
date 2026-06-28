@@ -294,30 +294,39 @@ if (
 
         animarTotal();
 
-        const ultimo =
+        let perfilRecente = null;
 
-            listaNova[
-                listaNova.length - 1
-            ];
+listaNova.forEach(
+    (perfil) => {
 
         if (
-            ultimo &&
-            ultimo.tiktok
+
+            perfil.dataAprovacaoPainel &&
+
+            perfil.dataAprovacaoPainel >
+            ultimaAprovacao
+
         ) {
 
-            exibirNovoParticipante(
-                ultimo.tiktok
-            );
+            ultimaAprovacao =
+                perfil.dataAprovacaoPainel;
+
+            perfilRecente =
+                perfil;
 
         }
 
     }
-
-    quantidadeAnterior =
-        totalAtual;
-
-}
-
 );
 
-iniciarRotacao();
+if (
+    perfilRecente
+) {
+
+    animarTotal();
+
+    exibirNovoParticipante(
+        perfilRecente.tiktok
+    );
+
+}
