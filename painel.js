@@ -1,11 +1,11 @@
 import {
-    bancoDados
+bancoDados
 }
 from "./configuracao-firebase.js";
 
 import {
-    collection,
-    onSnapshot
+collection,
+onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -13,21 +13,21 @@ let participantes = [];
 
 let quantidadeAnterior = 0;
 
-/*
-========================================
-NOME EM DESTAQUE
-========================================
-*/
+let ultimoNomeExibido = "";
 
 function mostrarParticipanteDestaque() {
 
-    if (
-        participantes.length === 0
-    ) {
-        return;
-    }
+if (
+    participantes.length === 0
+) {
+    return;
+}
 
-    const sorteado =
+let sorteado;
+
+do {
+
+    sorteado =
 
         participantes[
             Math.floor(
@@ -36,162 +36,203 @@ function mostrarParticipanteDestaque() {
             )
         ];
 
-    const nome =
+}
+while (
 
-        document.getElementById(
-            "nomeDestaque"
-        );
+    participantes.length > 1 &&
 
-    nome.style.opacity = "0";
+    sorteado.tiktok ===
+    ultimoNomeExibido
 
-    setTimeout(
-        () => {
+);
 
-            nome.innerHTML =
-                sorteado.tiktok;
+ultimoNomeExibido =
+    sorteado.tiktok;
 
-            nome.style.opacity =
-                "1";
-
-        },
-        500
+const nome =
+    document.getElementById(
+        "nomeDestaque"
     );
 
+if (!nome) {
+    return;
 }
 
-/*
-========================================
-ROTAÇÃO ALEATÓRIA
-========================================
-*/
+nome.style.opacity =
+    "0";
+
+setTimeout(
+    () => {
+
+        nome.innerHTML =
+            sorteado.tiktok;
+
+        nome.style.opacity =
+            "1";
+
+    },
+    500
+);
+
+}
 
 function iniciarRotacao() {
 
-    mostrarParticipanteDestaque();
+mostrarParticipanteDestaque();
 
-    const tempoAleatorio =
+const tempoAleatorio =
 
-        Math.floor(
-            Math.random() * 2001
-        )
+    Math.floor(
+        Math.random() * 2001
+    ) + 8000;
 
-        + 8000;
-
-    setTimeout(
-        iniciarRotacao,
-        tempoAleatorio
-    );
+setTimeout(
+    iniciarRotacao,
+    tempoAleatorio
+);
 
 }
-
-/*
-========================================
-NOVO PARTICIPANTE
-========================================
-*/
 
 function exibirNovoParticipante(
-    tiktok
+tiktok
 ) {
 
-    const area =
-        document.getElementById(
-            "novoCadastro"
-        );
-
-    area.style.display =
-        "block";
-
-    area.innerHTML =
-
-        `
-        🎉 NOVO CADASTRO
-
-        <br><br>
-
-        ${tiktok}
-        `;
-
-    const tempoAleatorio =
-
-        Math.floor(
-            Math.random() * 10001
-        )
-
-        + 30000;
-
-    setTimeout(
-        () => {
-
-            area.style.display =
-                "none";
-
-        },
-        tempoAleatorio
+const area =
+    document.getElementById(
+        "novoCadastro"
     );
+
+if (!area) {
+    return;
+}
+
+area.style.display =
+    "block";
+
+area.innerHTML =
+
+    `
+    🎉 NOVO CADASTRO
+    <br><br>
+    ${tiktok}
+    `;
+
+const tempoAleatorio =
+
+    Math.floor(
+        Math.random() * 10001
+    ) + 30000;
+
+setTimeout(
+    () => {
+
+        area.style.display =
+            "none";
+
+    },
+    tempoAleatorio
+);
 
 }
 
-/*
-========================================
-FIREBASE
-========================================
-*/
+function animarTotal() {
+
+const total =
+    document.getElementById(
+        "totalParticipantes"
+    );
+
+if (!total) {
+    return;
+}
+
+total.style.transform =
+    "scale(1.15)";
+
+setTimeout(
+    () => {
+
+        total.style.transform =
+            "scale(1)";
+
+    },
+    300
+);
+
+}
 
 onSnapshot(
 
-    collection(
-        bancoDados,
-        "perfis"
-    ),
+collection(
+    bancoDados,
+    "perfis"
+),
 
-    (snapshot) => {
+(snapshot) => {
 
-        const listaNova = [];
+    const listaNova = [];
 
-        snapshot.forEach(
-            (doc) => {
+    snapshot.forEach(
+        (doc) => {
 
-                const perfil =
-                    doc.data();
+            const perfil =
+                doc.data();
 
-                if (
-                    perfil.situacao ===
-                    "ativo"
-                ) {
+            if (
+                perfil.situacao ===
+                "ativo"
 
-                    listaNova.push(
-                        perfil
-                    );
+                &&
 
-                }
+                perfil.tiktok
+            ) {
+
+                listaNova.push(
+                    perfil
+                );
 
             }
-        );
 
-        participantes =
-            listaNova;
+        }
+    );
 
+    participantes =
+        listaNova;
+
+    const totalAtual =
+        listaNova.length;
+
+    const elementoTotal =
         document.getElementById(
             "totalParticipantes"
-        ).innerHTML =
+        );
 
-            listaNova.length;
+    if (
+        elementoTotal
+    ) {
+
+        elementoTotal.innerHTML =
+            totalAtual;
+
+    }
+
+    if (
+        quantidadeAnterior > 0 &&
+        totalAtual >
+        quantidadeAnterior
+    ) {
+
+        animarTotal();
+
+        const ultimo =
+            listaNova[
+                listaNova.length - 1
+            ];
 
         if (
-
-            quantidadeAnterior > 0 &&
-
-            listaNova.length >
-            quantidadeAnterior
-
+            ultimo &&
+            ultimo.tiktok
         ) {
-
-            const ultimo =
-
-                listaNova[
-                    listaNova.length - 1
-                ];
 
             exibirNovoParticipante(
                 ultimo.tiktok
@@ -199,10 +240,12 @@ onSnapshot(
 
         }
 
-        quantidadeAnterior =
-            listaNova.length;
-
     }
+
+    quantidadeAnterior =
+        totalAtual;
+
+}
 
 );
 
