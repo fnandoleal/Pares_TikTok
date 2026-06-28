@@ -13,53 +13,48 @@ let participantes = [];
 
 let quantidadeAnterior = 0;
 
-let ultimoExibido = null;
-
 /*
 ========================================
-MOSTRAR PARTICIPANTES
+NOME EM DESTAQUE
 ========================================
 */
 
-function mostrarParticipantesAleatorios() {
+function mostrarParticipanteDestaque() {
 
-    const area =
-        document.getElementById(
-            "listaAleatoria"
-        );
-
-    if (!area) {
+    if (
+        participantes.length === 0
+    ) {
         return;
     }
 
-    area.innerHTML = "";
+    const sorteado =
 
-    const embaralhados =
-        [...participantes]
-            .sort(
-                () =>
-                    Math.random() - 0.5
-            );
+        participantes[
+            Math.floor(
+                Math.random() *
+                participantes.length
+            )
+        ];
 
-    const sorteados =
-        embaralhados.slice(
-            0,
-            5
+    const nome =
+
+        document.getElementById(
+            "nomeDestaque"
         );
 
-    sorteados.forEach(
-        (perfil) => {
+    nome.style.opacity = "0";
 
-            area.innerHTML +=
-                `
-                <div class="participante">
+    setTimeout(
+        () => {
 
-                    ${perfil.tiktok}
+            nome.innerHTML =
+                sorteado.tiktok;
 
-                </div>
-                `;
+            nome.style.opacity =
+                "1";
 
-        }
+        },
+        500
     );
 
 }
@@ -72,7 +67,7 @@ ROTAÇÃO ALEATÓRIA
 
 function iniciarRotacao() {
 
-    mostrarParticipantesAleatorios();
+    mostrarParticipanteDestaque();
 
     const tempoAleatorio =
 
@@ -104,24 +99,17 @@ function exibirNovoParticipante(
             "novoCadastro"
         );
 
-    if (!area) {
-        return;
-    }
-
     area.style.display =
         "block";
 
     area.innerHTML =
+
         `
-        <div class="alertaNovo">
+        🎉 NOVO CADASTRO
 
-            🎉 NOVO PARTICIPANTE
+        <br><br>
 
-            <br><br>
-
-            ${tiktok}
-
-        </div>
+        ${tiktok}
         `;
 
     const tempoAleatorio =
@@ -181,6 +169,9 @@ onSnapshot(
             }
         );
 
+        participantes =
+            listaNova;
+
         document.getElementById(
             "totalParticipantes"
         ).innerHTML =
@@ -188,36 +179,25 @@ onSnapshot(
             listaNova.length;
 
         if (
+
             quantidadeAnterior > 0 &&
+
             listaNova.length >
             quantidadeAnterior
+
         ) {
 
-            const novoPerfil =
+            const ultimo =
 
-                listaNova.find(
-                    p =>
-                        p.tiktok !==
-                        ultimoExibido
-                );
+                listaNova[
+                    listaNova.length - 1
+                ];
 
-            if (
-                novoPerfil
-            ) {
-
-                ultimoExibido =
-                    novoPerfil.tiktok;
-
-                exibirNovoParticipante(
-                    novoPerfil.tiktok
-                );
-
-            }
+            exibirNovoParticipante(
+                ultimo.tiktok
+            );
 
         }
-
-        participantes =
-            listaNova;
 
         quantidadeAnterior =
             listaNova.length;
